@@ -18,3 +18,5 @@
 2025-11-25 11:35:38,240 - INFO - Processing request of type CallToolRequest
 2025-11-25 11:36:18,456 - INFO - Processing request of type ListToolsRequest
 2025-11-25 11:36:25,482 - INFO - Processing request of type CallToolRequest
+2025-11-25 13:30:17,485 - INFO - Processing request of type ListToolsRequest
+2025-11-25 13:30:17,491 - INFO - Processing request of type ListResourcesRequest

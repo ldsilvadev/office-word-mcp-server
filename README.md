@@ -3,11 +3,23 @@
  - pip install -e .
  - python -m word_document_server.main
 
-# Office-Word-MCP-Server
+# Office-Word-MCP-Server (Fork)
+
+> **Este é um fork do projeto original [Office-Word-MCP-Server](https://github.com/GongRzhe/Office-Word-MCP-Server)** com funcionalidades adicionais implementadas.
 
 [![smithery badge](https://smithery.ai/badge/@GongRzhe/Office-Word-MCP-Server)](https://smithery.ai/server/@GongRzhe/Office-Word-MCP-Server)
 
 A Model Context Protocol (MCP) server for creating, reading, and manipulating Microsoft Word documents. This server enables AI assistants to work with Word documents through a standardized interface, providing rich document editing capabilities.
+
+## ✨ Funcionalidades Adicionadas neste Fork
+
+### Preenchimento de Templates
+Este fork implementa funcionalidades avançadas para trabalhar com templates de documentos Word:
+
+- **Preenchimento de templates com dados dinâmicos** usando Jinja2 (via docxtpl)
+- **Substituição simples de texto** preservando formatação original (via python-docx)
+- **Suporte a variáveis, loops e conteúdo condicional** em templates
+- **Preservação de estilos e formatação** do documento original
 
 <a href="https://glama.ai/mcp/servers/@GongRzhe/Office-Word-MCP-Server">
   <img width="380" height="200" src="https://glama.ai/mcp/servers/@GongRzhe/Office-Word-MCP-Server/badge" alt="Office Word Server MCP server" />
@@ -42,6 +54,7 @@ The server features a modular architecture that separates concerns into core fun
 - Create copies of existing documents
 - Merge multiple documents into a single document
 - Convert Word documents to PDF format
+- **Fill document templates with dynamic data (Jinja2 and simple replacement)**
 
 ### Content Creation
 
@@ -221,6 +234,8 @@ Once configured, you can ask Claude to perform operations like:
 - "Create a callout table with a blue checkmark icon and white text"
 - "Set the first column width to 50 points and auto-fit the remaining columns"
 - "Apply alternating row colors to make the table more readable"
+- "Fill the template 'template.docx' with data from JSON and save as 'output.docx'"
+- "Use simple replacement to fill the template preserving all formatting"
 
 
 ## API Reference
@@ -334,6 +349,18 @@ auto_fit_table_columns(filename, table_index)
 get_all_comments(filename)
 get_comments_by_author(filename, author)
 get_comments_for_paragraph(filename, paragraph_index)
+```
+
+### Template Filling
+
+```python
+# Fill template using Jinja2 (docxtpl) - supports loops, conditionals, and complex logic
+fill_document_template(template_path, output_path, data_json)
+# Template syntax: {{variable}}, {% for item in list %}, {% if condition %}
+
+# Fill template using simple text replacement (python-docx) - better formatting preservation
+fill_document_simple(template_path, output_path, data_json)
+# Template syntax: {{variable}}, {{LOOP:section}} for repeating content
 ```
 
 ## Troubleshooting
