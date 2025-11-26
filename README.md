@@ -5,6 +5,9 @@ Servidor MCP (Model Context Protocol) para criar e manipular documentos Microsof
 ## 🚀 Início Rápido
 
 ```bash
+# Criar ambiente virtual
+python -m venv venv
+
 # Ativar ambiente virtual
 source venv/Scripts/activate
 
@@ -18,24 +21,28 @@ python -m word_document_server.main
 ## 📋 Funcionalidades
 
 ### Gerenciamento de Documentos
+
 - Criar, copiar e converter documentos Word
 - Extrair texto e analisar estrutura
 - Preencher templates com dados dinâmicos
 - Converter para PDF
 
 ### Criação de Conteúdo
+
 - Adicionar títulos, parágrafos e quebras de página
 - Inserir tabelas e imagens
 - Criar listas numeradas e com marcadores
 - Adicionar notas de rodapé
 
 ### Formatação
+
 - Formatar texto (negrito, itálico, cores, fontes)
 - Estilizar tabelas (bordas, cores, mesclagem de células)
 - Buscar e substituir texto
 - Aplicar estilos personalizados
 
 ### Recursos Avançados
+
 - Proteção com senha
 - Extração de comentários
 - Manipulação de células de tabela
@@ -44,6 +51,7 @@ python -m word_document_server.main
 ## 💾 Instalação
 
 ### Requisitos
+
 - Python 3.8 ou superior
 - pip
 
@@ -57,7 +65,6 @@ cd office-word-mcp-server
 # Instalar dependências
 pip install -r requirements.txt
 ```
-
 
 ## ⚙️ Configuração com IDEs que suportão MCP
 
@@ -92,26 +99,36 @@ Após configurar, você pode pedir a sua IDE:
 - "Preencha o template 'modelo.docx' com dados JSON"
 - "Converta o documento para PDF"
 
-
 ## 🔧 Principais Funções
 
 ### Documentos
+
 - `create_document()` - Criar documento
 - `convert_to_pdf()` - Converter para PDF
 - `copy_document()` - Copiar documento
 
 ### Conteúdo
+
 - `add_heading()` - Adicionar título
 - `add_paragraph()` - Adicionar parágrafo
 - `add_table()` - Adicionar tabela
 - `add_picture()` - Adicionar imagem
 
 ### Formatação
+
 - `format_text()` - Formatar texto
 - `format_table()` - Formatar tabela
 - `search_and_replace()` - Buscar e substituir
 
+### Cabeçalhos e Rodapés
+
+- `get_header_text()` - Ler texto do cabeçalho
+- `set_header_text()` - Definir texto do cabeçalho
+- `get_footer_text()` - Ler texto do rodapé
+- `set_footer_text()` - Definir texto do rodapé
+
 ### Templates
+
 - `fill_document_template()` - Preencher com Jinja2
 - `fill_document_simple()` - Substituição simples
 
