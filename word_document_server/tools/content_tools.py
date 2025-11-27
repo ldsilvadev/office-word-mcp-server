@@ -139,6 +139,15 @@ async def add_paragraph(filename: str, text: str, style: Optional[str] = None,
 
     try:
         doc = Document(filename)
+        
+        # If no style provided, try to inherit from the last paragraph
+        if style is None and len(doc.paragraphs) > 0:
+            last_para = doc.paragraphs[-1]
+            if last_para.style:
+                # Don't inherit Heading styles automatically, as we usually want body text after a heading
+                if not last_para.style.name.startswith('Heading'):
+                    style = last_para.style.name
+                    
         paragraph = doc.add_paragraph(text)
 
         if style:
@@ -479,3 +488,88 @@ async def replace_paragraph_block_below_header_tool(filename: str, header_text: 
 async def replace_block_between_manual_anchors_tool(filename: str, start_anchor_text: str, new_paragraphs: list, end_anchor_text: str = None, match_fn=None, new_paragraph_style: str = None) -> str:
     """Replace all content between start_anchor_text and end_anchor_text (or next logical header if not provided)."""
     return replace_block_between_manual_anchors(filename, start_anchor_text, new_paragraphs, end_anchor_text, match_fn, new_paragraph_style)
+
+
+async def edit_paragraph_text(filename: str, paragraph_index: int, new_text: str) -> str:
+    """Edit the text of a specific paragraph in a Word document.
+
+    Args:
+        filename: Path to the Word document
+        paragraph_index: Index of the paragraph to edit (0-based)
+        new_text: New text for the paragraph
+    """
+    filename = ensure_docx_extension(filename)
+
+    if not os.path.exists(filename):
+        return f"Document {filename} does not exist"
+
+    # Check if file is writeable
+    is_writeable, error_message = check_file_writeable(filename)
+    if not is_writeable:
+        return f"Cannot modify document: {error_message}. Consider creating a copy first."
+
+    try:
+        doc = Document(filename)
+
+        # Validate paragraph index
+        if paragraph_index < 0 or paragraph_index >= len(doc.paragraphs):
+            return f"Invalid paragraph index. Document has {len(doc.paragraphs)} paragraphs (0-{len(doc.paragraphs)-1})."
+
+        # Update the paragraph text
+        paragraph = doc.paragraphs[paragraph_index]
+        paragraph.text = new_text
+
+        doc.save(filename)
+        return f"Paragraph at index {paragraph_index} updated successfully."
+    except Exception as e:
+        return f"Failed to edit paragraph: {str(e)}"
+
+
+async def insert_text_inline(filename: str, search_text: str, text_to_insert: str, position: str = 'after') -> str:
+    """Insert text inline (same paragraph) before or after a specific text.
+    
+    Args:
+        filename: Path to the Word document
+        search_text: Text to search for
+        text_to_insert: Text to insert
+        position: 'before' or 'after' the search text
+    """
+    filename = ensure_docx_extension(filename)
+    
+    if not os.path.exists(filename):
+        return f"Document {filename} does not exist"
+        
+    # Check if file is writeable
+    is_writeable, error_message = check_file_writeable(filename)
+    if not is_writeable:
+        return f"Cannot modify document: {error_message}. Consider creating a copy first."
+        
+    try:
+        doc = Document(filename)
+        modified_count = 0
+        
+        for paragraph in doc.paragraphs:
+            if search_text in paragraph.text:
+                # We found the text. Now we need to modify the runs to preserve formatting if possible,
+                # or just modify the text directly if simple.
+                # For simplicity and robustness in this version, we'll do a text replacement on the paragraph.
+                # This might reset some run-level formatting in the specific paragraph, but ensures the text is inline.
+                
+                original_text = paragraph.text
+                if position == 'after':
+                    new_text = original_text.replace(search_text, search_text + text_to_insert)
+                else: # before
+                    new_text = original_text.replace(search_text, text_to_insert + search_text)
+                
+                if new_text != original_text:
+                    paragraph.text = new_text
+                    modified_count += 1
+        
+        if modified_count > 0:
+            doc.save(filename)
+            return f"Inserted text '{text_to_insert}' {position} '{search_text}' in {modified_count} location(s)."
+        else:
+            return f"Text '{search_text}' not found in document."
+            
+    except Exception as e:
+        return f"Failed to insert text inline: {str(e)}"

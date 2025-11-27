@@ -201,6 +201,29 @@ def register_tools():
         return content_tools.delete_paragraph(filename, paragraph_index)
     
     @mcp.tool()
+    def edit_paragraph_text(filename: str, paragraph_index: int, new_text: str):
+        """Edit the text of a specific paragraph in a Word document.
+        
+        Args:
+            filename: Path to Word document
+            paragraph_index: Index of the paragraph to edit (0-based)
+            new_text: New text content
+        """
+        return content_tools.edit_paragraph_text(filename, paragraph_index, new_text)
+    
+    @mcp.tool()
+    def insert_text_inline(filename: str, search_text: str, text_to_insert: str, position: str = 'after'):
+        """Insert text inline (same paragraph) before or after a specific text.
+        
+        Args:
+            filename: Path to Word document
+            search_text: Text to search for
+            text_to_insert: Text to insert
+            position: 'before' or 'after' the search text (default: 'after')
+        """
+        return content_tools.insert_text_inline(filename, search_text, text_to_insert, position)
+    
+    @mcp.tool()
     def search_and_replace(filename: str, find_text: str, replace_text: str):
         """Search for text and replace all occurrences."""
         return content_tools.search_and_replace(filename, find_text, replace_text)
