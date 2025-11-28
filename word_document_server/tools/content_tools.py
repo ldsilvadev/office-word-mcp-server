@@ -573,3 +573,83 @@ async def insert_text_inline(filename: str, search_text: str, text_to_insert: st
             
     except Exception as e:
         return f"Failed to insert text inline: {str(e)}"
+
+
+async def add_section_with_inherited_formatting(filename: str, title: str, paragraph_text: Optional[str] = None, 
+                                              table_data: Optional[List[List[str]]] = None) -> str:
+    """Add a new section (Title + optional Content) inheriting the style of the last heading.
+    
+    Args:
+        filename: Path to the Word document
+        title: Text for the new section title
+        paragraph_text: Optional text for a paragraph below the title
+        table_data: Optional 2D list for a table below the title/paragraph
+    """
+    filename = ensure_docx_extension(filename)
+    
+    if not os.path.exists(filename):
+        return f"Document {filename} does not exist"
+        
+    # Check if file is writeable
+    is_writeable, error_message = check_file_writeable(filename)
+    if not is_writeable:
+        return f"Cannot modify document: {error_message}. Consider creating a copy first."
+        
+    try:
+        doc = Document(filename)
+        
+        # Find the last heading style and potentially the body style
+        target_style = "Heading 1" # Default
+        body_style = None
+        
+        # Iterate backwards to find the last heading
+        for i in range(len(doc.paragraphs) - 1, -1, -1):
+            para = doc.paragraphs[i]
+            if para.style and para.style.name.startswith("Heading"):
+                target_style = para.style.name
+                
+                # Check the next paragraph for body style
+                if i + 1 < len(doc.paragraphs):
+                    next_para = doc.paragraphs[i + 1]
+                    # Ensure the next paragraph is not another heading
+                    if next_para.style and not next_para.style.name.startswith("Heading"):
+                        body_style = next_para.style.name
+                break
+                
+        # Add the new title with the inherited style
+        doc.add_paragraph(title, style=target_style)
+        
+        # Add optional paragraph
+        if paragraph_text:
+            # Use inherited body style if found, otherwise let add_paragraph handle defaults
+            doc.add_paragraph(paragraph_text, style=body_style)
+            
+        # Add optional table
+        if table_data and len(table_data) > 0:
+            rows = len(table_data)
+            cols = len(table_data[0]) if rows > 0 else 0
+            
+            if rows > 0 and cols > 0:
+                table = doc.add_table(rows=rows, cols=cols)
+                # Try to set a default table style
+                try:
+                    table.style = 'Table Grid'
+                except KeyError:
+                    pass
+                    
+                for i, row_data in enumerate(table_data):
+                    for j, cell_text in enumerate(row_data):
+                        if j < cols:
+                            table.cell(i, j).text = str(cell_text)
+                            
+        doc.save(filename)
+        
+        details = []
+        if paragraph_text: details.append(f"paragraph (style: {body_style or 'default'})")
+        if table_data: details.append("table")
+        content_str = f" with {', '.join(details)}" if details else ""
+        
+        return f"Added section '{title}' (inherited style '{target_style}'){content_str} to {filename}"
+            
+    except Exception as e:
+        return f"Failed to add section: {str(e)}"

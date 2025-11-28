@@ -460,6 +460,18 @@ def register_tools():
         """Replace all content between start_anchor_text and end_anchor_text (or next logical header if not provided)."""
         return replace_block_between_manual_anchors_tool(filename, start_anchor_text, new_paragraphs, end_anchor_text, match_fn, new_paragraph_style)
 
+    @mcp.tool()
+    def add_section_with_inherited_formatting(filename: str, title: str, paragraph_text: str = None, table_data: list = None):
+        """Add a new section (Title + optional Content) inheriting the style of the last heading.
+        
+        Args:
+            filename: Path to the Word document
+            title: Text for the new section title
+            paragraph_text: Optional text for a paragraph below the title
+            table_data: Optional 2D list for a table below the title/paragraph
+        """
+        return content_tools.add_section_with_inherited_formatting(filename, title, paragraph_text, table_data)
+
     # Comment tools
     @mcp.tool()
     def get_all_comments(filename: str):
