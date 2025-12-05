@@ -405,6 +405,10 @@ def _process_rich_paragraph(doc, placeholder_para, text):
     - Numbered lists (List Number style) with proper indentation
     - Bold/Italic text
     - Regular paragraphs with justification and first line indent
+    
+    Returns:
+        The last inserted XML element, or None if no content was inserted.
+        This can be used to insert tables after the paragraph content.
     """
     from docx.shared import Pt, Cm, Inches
     from docx.enum.text import WD_ALIGN_PARAGRAPH
@@ -414,7 +418,7 @@ def _process_rich_paragraph(doc, placeholder_para, text):
     if not text or not text.strip():
         # Remove placeholder if no content
         placeholder_para._element.getparent().remove(placeholder_para._element)
-        return
+        return None
     
     parent = placeholder_para._element.getparent()
     insert_index = list(parent).index(placeholder_para._element)
@@ -509,17 +513,21 @@ def _process_rich_paragraph(doc, placeholder_para, text):
             
         else:
             # Regular paragraph with justification and first line indent
-            new_para = doc.add_paragraph()
-            
             # Try to apply paragraph style (Parágrafo, Body Text, or similar)
             from word_document_server.core.styles import ensure_paragraph_style
             paragraph_style = ensure_paragraph_style(doc)
             
+            # Create paragraph with style directly if available
             if paragraph_style:
                 try:
-                    new_para.style = paragraph_style
-                except:
-                    pass
+                    new_para = doc.add_paragraph(style=paragraph_style)
+                    logging.info(f"[RichParagraph] Created paragraph with style: '{paragraph_style}'")
+                except Exception as e:
+                    logging.warning(f"[RichParagraph] Failed to apply style '{paragraph_style}': {e}")
+                    new_para = doc.add_paragraph()
+            else:
+                new_para = doc.add_paragraph()
+                logging.warning(f"[RichParagraph] No paragraph style found, using default")
             
             _add_formatted_text(new_para, line)
             new_para.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
@@ -542,11 +550,252 @@ def _process_rich_paragraph(doc, placeholder_para, text):
     parent.remove(placeholder_para._element)
     
     # Insert new elements at the correct position
+    last_element = None
     for idx, elem in enumerate(elements_to_insert):
         # Remove from end of document (where add_paragraph puts them)
         elem.getparent().remove(elem)
         # Insert at correct position
         parent.insert(insert_index + idx, elem)
+        last_element = elem
+    
+    # Return the last inserted element for table insertion reference
+    return last_element
+
+def _insert_table_after_element(doc, element, table_data):
+    """
+    Insert a table after a specific XML element.
+    
+    Args:
+        doc: Document object
+        element: XML element after which to insert the table
+        table_data: List of dictionaries with table data
+    """
+    import logging
+    
+    if not table_data or not isinstance(table_data, list) or len(table_data) == 0:
+        return
+    
+    if not isinstance(table_data[0], dict):
+        return
+    
+    try:
+        # Get headers from first row
+        headers = list(table_data[0].keys())
+        rows = len(table_data)
+        cols = len(headers)
+        
+        logging.info(f"[Table] Creating table with {rows} rows and {cols} columns")
+        
+        # Create table
+        table = doc.add_table(rows=rows + 1, cols=cols)
+        
+        # Apply style
+        try:
+            table.style = 'Table Grid'
+        except KeyError:
+            pass
+        
+        # Fill header row
+        hdr_cells = table.rows[0].cells
+        for i, header in enumerate(headers):
+            hdr_cells[i].text = str(header).upper().replace("_", " ")
+            if hdr_cells[i].paragraphs[0].runs:
+                hdr_cells[i].paragraphs[0].runs[0].font.bold = True
+        
+        # Fill data rows
+        for i, item in enumerate(table_data):
+            row_cells = table.rows[i + 1].cells
+            for j, key in enumerate(headers):
+                val = item.get(key, "")
+                row_cells[j].text = str(val)
+        
+        # Move table to after the element
+        element.addnext(table._tbl)
+        
+        logging.info(f"[Table] Table inserted successfully after element")
+        
+    except Exception as e:
+        logging.error(f"[Table] Error inserting table: {e}")
+
+
+def _insert_table_after_element_return(doc, element, table_data):
+    """
+    Insert a table after a specific XML element and return the table element.
+    
+    Args:
+        doc: Document object
+        element: XML element after which to insert the table
+        table_data: List of dictionaries with table data
+        
+    Returns:
+        The table XML element (_tbl) or None if failed
+    """
+    import logging
+    
+    if not table_data or not isinstance(table_data, list) or len(table_data) == 0:
+        return None
+    
+    if not isinstance(table_data[0], dict):
+        return None
+    
+    try:
+        # Get headers from first row
+        headers = list(table_data[0].keys())
+        rows = len(table_data)
+        cols = len(headers)
+        
+        logging.info(f"[Table] Creating table with {rows} rows and {cols} columns")
+        
+        # Create table
+        table = doc.add_table(rows=rows + 1, cols=cols)
+        
+        # Apply style
+        try:
+            table.style = 'Table Grid'
+        except KeyError:
+            pass
+        
+        # Fill header row
+        hdr_cells = table.rows[0].cells
+        for i, header in enumerate(headers):
+            hdr_cells[i].text = str(header).upper().replace("_", " ")
+            if hdr_cells[i].paragraphs[0].runs:
+                hdr_cells[i].paragraphs[0].runs[0].font.bold = True
+        
+        # Fill data rows
+        for i, item in enumerate(table_data):
+            row_cells = table.rows[i + 1].cells
+            for j, key in enumerate(headers):
+                val = item.get(key, "")
+                row_cells[j].text = str(val)
+        
+        # Move table to after the element
+        element.addnext(table._tbl)
+        
+        logging.info(f"[Table] Table inserted successfully after element")
+        return table._tbl
+        
+    except Exception as e:
+        logging.error(f"[Table] Error inserting table: {e}")
+        return None
+
+
+def _insert_paragraph_after_element(doc, element, text):
+    """
+    Insert a paragraph with text after a specific XML element.
+    
+    Args:
+        doc: Document object
+        element: XML element after which to insert the paragraph
+        text: Text content for the paragraph
+    """
+    import logging
+    from docx.shared import Pt, Cm
+    from docx.enum.text import WD_ALIGN_PARAGRAPH
+    
+    if not text or not text.strip():
+        return
+    
+    try:
+        # Process the text as rich paragraph (supports lists, formatting, etc.)
+        # Create a temporary paragraph to get the parent
+        temp_para = doc.add_paragraph()
+        parent = temp_para._element.getparent()
+        
+        # Remove the temp paragraph
+        parent.remove(temp_para._element)
+        
+        # Split text into lines and process each
+        lines = text.split('\n')
+        last_elem = element
+        
+        for line in lines:
+            line = line.strip()
+            if not line:
+                continue
+            
+            # Create new paragraph
+            from word_document_server.core.styles import ensure_paragraph_style
+            paragraph_style = ensure_paragraph_style(doc)
+            
+            if paragraph_style:
+                new_para = doc.add_paragraph(style=paragraph_style)
+            else:
+                new_para = doc.add_paragraph()
+            
+            # Add text with formatting support
+            _add_formatted_text(new_para, line)
+            new_para.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+            new_para.paragraph_format.space_after = Pt(6)
+            new_para.paragraph_format.first_line_indent = Cm(1.25)
+            
+            # Move paragraph to after the last element
+            new_para._element.getparent().remove(new_para._element)
+            last_elem.addnext(new_para._element)
+            last_elem = new_para._element
+        
+        logging.info(f"[Paragraph] Inserted paragraph after element")
+        
+    except Exception as e:
+        logging.error(f"[Paragraph] Error inserting paragraph: {e}")
+
+
+def _insert_table_after_paragraph(doc, paragraph, table_data):
+    """
+    Insert a table after a specific paragraph.
+    
+    Args:
+        doc: Document object
+        paragraph: Paragraph after which to insert the table
+        table_data: List of dictionaries with table data
+    """
+    import logging
+    
+    if not table_data or not isinstance(table_data, list) or len(table_data) == 0:
+        return
+    
+    if not isinstance(table_data[0], dict):
+        return
+    
+    try:
+        # Get headers from first row
+        headers = list(table_data[0].keys())
+        rows = len(table_data)
+        cols = len(headers)
+        
+        logging.info(f"[Table] Creating table with {rows} rows and {cols} columns")
+        
+        # Create table
+        table = doc.add_table(rows=rows + 1, cols=cols)
+        
+        # Apply style
+        try:
+            table.style = 'Table Grid'
+        except KeyError:
+            pass
+        
+        # Fill header row
+        hdr_cells = table.rows[0].cells
+        for i, header in enumerate(headers):
+            hdr_cells[i].text = str(header).upper().replace("_", " ")
+            if hdr_cells[i].paragraphs[0].runs:
+                hdr_cells[i].paragraphs[0].runs[0].font.bold = True
+        
+        # Fill data rows
+        for i, item in enumerate(table_data):
+            row_cells = table.rows[i + 1].cells
+            for j, key in enumerate(headers):
+                val = item.get(key, "")
+                row_cells[j].text = str(val)
+        
+        # Move table to after the paragraph
+        paragraph._p.addnext(table._tbl)
+        
+        logging.info(f"[Table] Table inserted successfully")
+        
+    except Exception as e:
+        logging.error(f"[Table] Error inserting table: {e}")
+
 
 def _process_dynamic_table_placeholder(doc, context_data, placeholder_key="tabela_dinamica"):
     import logging 
@@ -729,18 +978,69 @@ async def fill_document_simple(template_path: str, output_path: str, data_json: 
                     t_count = 0
                     p_count = 0
                     
+                    # Lista para armazenar tabelas a serem inseridas após processamento
+                    tables_to_insert = []
+                    
                     # Precisamos iterar novamente pelos parágrafos do documento atualizado
                     paragraphs_to_process = list(doc.paragraphs)
                     for para in paragraphs_to_process:
                         if "{{titulo}}" in para.text and t_count < len(loop_data):
                             val = loop_data[t_count].get("titulo", "")
+                            section_item = loop_data[t_count]
                             _replace_in_runs(para, "{{titulo}}", str(val))
+                            
+                            # Se esta seção tem tabela_dinamica, guardar referência ao título
+                            # para inserir a tabela após ele (caso não tenha parágrafo)
+                            if section_item.get("tabela_dinamica"):
+                                table_data = section_item["tabela_dinamica"]
+                                if isinstance(table_data, list) and len(table_data) > 0:
+                                    tables_to_insert.append({
+                                        "after_element": para._element,
+                                        "table_data": table_data,
+                                        "section_idx": t_count
+                                    })
+                                    logging.info(f"[Loop] Section {t_count + 1} has tabela_dinamica with {len(table_data)} rows (will insert after title)")
+                            
                             t_count += 1
                         elif "{{paragrafo}}" in para.text and p_count < len(loop_data):
                             val = loop_data[p_count].get("paragrafo", "")
+                            section_item = loop_data[p_count]
+                            
                             # Processar texto rico com listas e formatação
-                            _process_rich_paragraph(doc, para, val)
+                            # Retorna o último elemento inserido para usar como referência da tabela
+                            last_element = _process_rich_paragraph(doc, para, val)
+                            logging.info(f"[Loop] Section {p_count + 1} paragraph processed, last_element: {last_element is not None}")
+                            
+                            # Variável para rastrear o último elemento inserido (para paragrafo_pos_tabela)
+                            last_inserted_element = last_element
+                            
+                            # Se tem tabela, inserir IMEDIATAMENTE após o último elemento do parágrafo
+                            if section_item.get("tabela_dinamica"):
+                                table_data = section_item["tabela_dinamica"]
+                                logging.info(f"[Loop] Section {p_count + 1} has table with {len(table_data) if table_data else 0} rows")
+                                if isinstance(table_data, list) and len(table_data) > 0:
+                                    if last_element is not None:
+                                        logging.info(f"[Loop] Inserting table for section {p_count + 1} after paragraph content")
+                                        table_element = _insert_table_after_element_return(doc, last_element, table_data)
+                                        if table_element is not None:
+                                            last_inserted_element = table_element
+                                        # Remover da lista de tabelas pendentes
+                                        tables_to_insert = [t for t in tables_to_insert if t["section_idx"] != p_count]
+                                    else:
+                                        logging.warning(f"[Loop] No last element for section {p_count + 1}, table will be inserted after title")
+                            
+                            # Se tem paragrafo_pos_tabela, inserir APÓS a tabela
+                            if section_item.get("paragrafo_pos_tabela") and last_inserted_element is not None:
+                                pos_table_text = section_item["paragrafo_pos_tabela"]
+                                logging.info(f"[Loop] Section {p_count + 1} has paragrafo_pos_tabela, inserting after table")
+                                _insert_paragraph_after_element(doc, last_inserted_element, pos_table_text)
+                            
                             p_count += 1
+                    
+                    # Inserir tabelas restantes (seções sem parágrafo, apenas título)
+                    for table_info in tables_to_insert:
+                        logging.info(f"[Loop] Inserting remaining table for section {table_info['section_idx'] + 1} after title")
+                        _insert_table_after_element(doc, table_info["after_element"], table_info["table_data"])
             
             # STEP 2: Replace simple variables in body
             for para in doc.paragraphs:

@@ -63,13 +63,28 @@ def ensure_paragraph_style(doc):
     """
     from docx.shared import Pt, Cm
     from docx.enum.text import WD_ALIGN_PARAGRAPH
+    import logging
+    
+    # Log all available paragraph styles for debugging
+    available_styles = [s.name for s in doc.styles if s.type == WD_STYLE_TYPE.PARAGRAPH]
+    logging.info(f"[Styles] Available paragraph styles: {available_styles}")
     
     # Try to find existing paragraph style
-    style_names_to_try = ['Parágrafo', 'Paragrafo', 'Body Text', 'Corpo de texto']
+    # Order matters: try Portuguese names first, then English
+    style_names_to_try = [
+        'Parágrafo',           # Portuguese custom
+        'Paragrafo',           # Portuguese without accent
+        'Corpo de texto',      # Portuguese Body Text
+        'Corpo do texto',      # Portuguese variant
+        'Body Text',           # English
+        'Body',                # Short English
+        'Normal',              # Default fallback
+    ]
     
     for style_name in style_names_to_try:
         try:
             style = doc.styles[style_name]
+            logging.info(f"[Styles] Found paragraph style: '{style_name}'")
             return style_name
         except KeyError:
             continue

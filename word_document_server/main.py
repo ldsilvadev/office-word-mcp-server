@@ -93,39 +93,39 @@ def register_tools():
     
     # Document tools (create, copy, info, etc.)
     @mcp.tool()
-    def create_document(filename: str, title: str = None, author: str = None):
+    async def create_document(filename: str, title: str = None, author: str = None):
         """Create a new Word document with optional metadata."""
-        return document_tools.create_document(filename, title, author)
+        return await document_tools.create_document(filename, title, author)
     
     @mcp.tool()
-    def copy_document(source_filename: str, destination_filename: str = None):
+    async def copy_document(source_filename: str, destination_filename: str = None):
         """Create a copy of a Word document."""
-        return document_tools.copy_document(source_filename, destination_filename)
+        return await document_tools.copy_document(source_filename, destination_filename)
     
     @mcp.tool()
-    def get_document_info(filename: str):
+    async def get_document_info(filename: str):
         """Get information about a Word document."""
-        return document_tools.get_document_info(filename)
+        return await document_tools.get_document_info(filename)
     
     @mcp.tool()
-    def get_document_text(filename: str):
+    async def get_document_text(filename: str):
         """Extract all text from a Word document."""
-        return document_tools.get_document_text(filename)
+        return await document_tools.get_document_text(filename)
     
     @mcp.tool()
-    def get_document_outline(filename: str):
+    async def get_document_outline(filename: str):
         """Get the structure of a Word document."""
-        return document_tools.get_document_outline(filename)
+        return await document_tools.get_document_outline(filename)
     
     @mcp.tool()
-    def list_available_documents(directory: str = "."):
+    async def list_available_documents(directory: str = "."):
         """List all .docx files in the specified directory."""
-        return document_tools.list_available_documents(directory)
+        return await document_tools.list_available_documents(directory)
     
     @mcp.tool()
-    def get_document_xml(filename: str):
+    async def get_document_xml(filename: str):
         """Get the raw XML structure of a Word document."""
-        return document_tools.get_document_xml_tool(filename)
+        return await document_tools.get_document_xml_tool(filename)
     
     @mcp.tool()
     def insert_header_near_text(filename: str, target_text: str = None, header_title: str = None, position: str = 'after', header_style: str = 'Heading 1', target_paragraph_index: int = None):
@@ -414,7 +414,7 @@ def register_tools():
         return extended_document_tools.convert_to_pdf(filename, output_filename)
     
     @mcp.tool()
-    def fill_document_template(template_path: str, output_path: str, data_json: str):
+    async def fill_document_template(template_path: str, output_path: str, data_json: str):
         """Fill a Word document template using docxtpl (Jinja2) with provided data.
         
         Allows populating templates with:
@@ -428,10 +428,10 @@ def register_tools():
             output_path: Path for the filled output document
             data_json: JSON string with data matching template variables
         """
-        return document_tools.fill_document_template(template_path, output_path, data_json)
+        return await document_tools.fill_document_template(template_path, output_path, data_json)
     
     @mcp.tool()
-    def fill_document_simple(template_path: str, output_path: str, data_json: str):
+    async def fill_document_simple(template_path: str, output_path: str, data_json: str):
         """Fill a Word document template using simple text replacement (python-docx).
         
         Better formatting preservation than docxtpl. Maintains ALL original formatting:
@@ -448,7 +448,7 @@ def register_tools():
             output_path: Path for the filled output document
             data_json: JSON string with data
         """
-        return document_tools.fill_document_simple(template_path, output_path, data_json)
+        return await document_tools.fill_document_simple(template_path, output_path, data_json)
 
     @mcp.tool()
     def replace_paragraph_block_below_header(filename: str, header_text: str, new_paragraphs: list, detect_block_end_fn=None):
