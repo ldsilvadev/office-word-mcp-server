@@ -232,3 +232,184 @@
 2025-11-28 11:13:58,691 - INFO - Processing request of type ListToolsRequest
 2025-11-28 11:14:06,448 - INFO - Processing request of type CallToolRequest
 2025-11-28 11:14:06,483 - INFO - Chamando _process_dynamic_table_placeholder agora...
+2025-12-03 12:04:56,069 - INFO - Processing request of type ListToolsRequest
+2025-12-03 13:26:41,378 - INFO - Processing request of type ListToolsRequest
+2025-12-03 13:28:03,738 - INFO - Processing request of type ListToolsRequest
+2025-12-03 13:34:35,010 - INFO - Processing request of type ListToolsRequest
+2025-12-03 13:43:33,327 - INFO - Processing request of type ListToolsRequest
+2025-12-03 13:46:40,081 - INFO - Processing request of type CallToolRequest
+2025-12-03 14:01:29,353 - INFO - Processing request of type CallToolRequest
+2025-12-03 14:02:49,516 - INFO - Processing request of type ListToolsRequest
+2025-12-03 14:03:13,168 - INFO - Processing request of type CallToolRequest
+2025-12-03 14:03:54,618 - INFO - Processing request of type CallToolRequest
+2025-12-03 14:04:04,777 - INFO - Processing request of type CallToolRequest
+2025-12-03 14:05:56,249 - INFO - Processing request of type ListToolsRequest
+2025-12-03 14:10:29,333 - INFO - Processing request of type ListToolsRequest
+2025-12-03 14:10:56,289 - INFO - Processing request of type ListToolsRequest
+2025-12-03 14:11:13,394 - INFO - Processing request of type CallToolRequest
+2025-12-03 14:13:22,257 - INFO - Processing request of type CallToolRequest
+2025-12-03 14:17:10,369 - INFO - Processing request of type ListToolsRequest
+2025-12-03 14:17:24,800 - INFO - Processing request of type CallToolRequest
+2025-12-03 14:17:24,821 - INFO - Chamando _process_dynamic_table_placeholder agora...
+2025-12-03 14:36:42,755 - INFO - Processing request of type ListToolsRequest
+2025-12-03 14:37:03,744 - INFO - Processing request of type ListToolsRequest
+2025-12-03 14:37:26,628 - INFO - Processing request of type ListToolsRequest
+2025-12-03 14:37:41,252 - INFO - Processing request of type CallToolRequest
+2025-12-03 14:37:41,272 - INFO - Chamando _process_dynamic_table_placeholder agora...
+2025-12-03 14:42:33,547 - INFO - Processing request of type ListToolsRequest
+2025-12-03 14:42:47,801 - INFO - Processing request of type CallToolRequest
+2025-12-03 14:42:47,834 - INFO - Chamando _process_dynamic_table_placeholder agora...
+2025-12-03 14:44:02,714 - INFO - Processing request of type ListToolsRequest
+2025-12-03 15:00:44,867 - INFO - Processing request of type ListToolsRequest
+2025-12-03 15:01:15,114 - INFO - Processing request of type ListToolsRequest
+2025-12-03 15:01:55,763 - INFO - Processing request of type CallToolRequest
+2025-12-03 15:01:55,803 - INFO - Chamando _process_dynamic_table_placeholder agora...
+2025-12-03 15:02:34,955 - INFO - Processing request of type ListToolsRequest
+2025-12-03 15:08:07,298 - INFO - Processing request of type ListToolsRequest
+2025-12-03 15:08:15,712 - INFO - Processing request of type ListToolsRequest
+2025-12-03 15:09:06,678 - INFO - Processing request of type ListToolsRequest
+2025-12-03 15:09:24,538 - INFO - Processing request of type ListToolsRequest
+2025-12-03 15:11:06,363 - INFO - Processing request of type ListToolsRequest
+2025-12-03 15:11:44,006 - INFO - Processing request of type ListToolsRequest
+2025-12-03 15:14:45,306 - INFO - Processing request of type ListToolsRequest
+2025-12-03 15:15:53,566 - INFO - Processing request of type ListToolsRequest
+2025-12-03 15:16:21,380 - INFO - Processing request of type CallToolRequest
+2025-12-03 15:16:21,415 - INFO - Chamando _process_dynamic_table_placeholder agora...
+2025-12-03 15:27:01,512 - INFO - Processing request of type ListToolsRequest
+2025-12-03 15:27:45,575 - INFO - Processing request of type ListToolsRequest
+2025-12-03 15:28:02,377 - INFO - Processing request of type CallToolRequest
+2025-12-03 15:28:02,415 - INFO - Chamando _process_dynamic_table_placeholder agora...
+2025-12-03 15:35:08,719 - INFO - Processing request of type ListToolsRequest
+2025-12-03 15:36:06,684 - INFO - Processing request of type ListToolsRequest
+2025-12-03 15:36:41,184 - INFO - Processing request of type ListToolsRequest
+2025-12-03 15:39:50,863 - INFO - Processing request of type ListToolsRequest
+2025-12-03 15:42:19,390 - INFO - Processing request of type ListToolsRequest
+2025-12-03 15:42:34,085 - INFO - Processing request of type CallToolRequest
+2025-12-03 15:42:34,133 - INFO - Chamando _process_dynamic_table_placeholder agora...
+2025-12-03 15:47:23,757 - INFO - Processing request of type ListToolsRequest
+2025-12-03 15:48:32,145 - INFO - Processing request of type ListToolsRequest
+2025-12-03 15:51:59,544 - INFO - Processing request of type ListToolsRequest
+2025-12-03 15:52:19,525 - INFO - Processing request of type ListToolsRequest
+2025-12-03 15:52:50,757 - INFO - Processing request of type CallToolRequest
+2025-12-03 15:52:50,797 - INFO - Chamando _process_dynamic_table_placeholder agora...
+2025-12-03 15:56:58,529 - INFO - Processing request of type ListToolsRequest
+2025-12-03 15:57:28,655 - INFO - Processing request of type ListToolsRequest
+2025-12-03 15:58:17,788 - INFO - Processing request of type CallToolRequest
+2025-12-03 15:58:17,830 - INFO - Chamando _process_dynamic_table_placeholder agora...
+2025-12-03 16:06:57,381 - INFO - Processing request of type ListToolsRequest
+2025-12-03 16:07:39,342 - INFO - Processing request of type ListToolsRequest
+2025-12-03 16:07:54,273 - INFO - Processing request of type CallToolRequest
+2025-12-03 16:07:54,320 - INFO - Chamando _process_dynamic_table_placeholder agora...
+2025-12-03 16:20:47,547 - INFO - Processing request of type ListToolsRequest
+2025-12-03 16:21:26,937 - INFO - Processing request of type ListToolsRequest
+2025-12-03 16:21:48,330 - INFO - Processing request of type CallToolRequest
+2025-12-03 16:21:48,387 - INFO - Chamando _process_dynamic_table_placeholder agora...
+2025-12-03 16:26:50,013 - INFO - Processing request of type ListToolsRequest
+2025-12-03 16:27:35,226 - INFO - Processing request of type ListToolsRequest
+2025-12-03 16:28:00,653 - INFO - Processing request of type CallToolRequest
+2025-12-03 16:28:00,700 - INFO - Chamando _process_dynamic_table_placeholder agora...
+2025-12-03 16:34:10,833 - INFO - Processing request of type ListToolsRequest
+2025-12-03 16:36:09,259 - INFO - Processing request of type ListToolsRequest
+2025-12-03 16:36:56,791 - INFO - Processing request of type ListToolsRequest
+2025-12-03 16:37:12,597 - INFO - Processing request of type CallToolRequest
+2025-12-03 16:37:12,617 - INFO - [Styles] Found existing list style: 'List Paragraph'
+2025-12-03 16:37:12,618 - INFO - [RichParagraph] Created bullet with style: 'List Paragraph'
+2025-12-03 16:37:12,619 - INFO - [Styles] Found existing list style: 'List Paragraph'
+2025-12-03 16:37:12,619 - INFO - [RichParagraph] Created bullet with style: 'List Paragraph'
+2025-12-03 16:37:12,622 - INFO - [Styles] Found existing list style: 'List Paragraph'
+2025-12-03 16:37:12,623 - INFO - [RichParagraph] Created bullet with style: 'List Paragraph'
+2025-12-03 16:37:12,624 - INFO - [Styles] Found existing list style: 'List Paragraph'
+2025-12-03 16:37:12,625 - INFO - [RichParagraph] Created bullet with style: 'List Paragraph'
+2025-12-03 16:37:12,627 - INFO - [Styles] Found existing list style: 'List Paragraph'
+2025-12-03 16:37:12,627 - INFO - [RichParagraph] Created bullet with style: 'List Paragraph'
+2025-12-03 16:37:12,628 - INFO - [Styles] Found existing list style: 'List Paragraph'
+2025-12-03 16:37:12,629 - INFO - [RichParagraph] Created bullet with style: 'List Paragraph'
+2025-12-03 16:37:12,632 - INFO - [Styles] Found existing list style: 'List Paragraph'
+2025-12-03 16:37:12,632 - INFO - [RichParagraph] Created bullet with style: 'List Paragraph'
+2025-12-03 16:37:12,633 - INFO - [Styles] Found existing list style: 'List Paragraph'
+2025-12-03 16:37:12,634 - INFO - [RichParagraph] Created bullet with style: 'List Paragraph'
+2025-12-03 16:37:12,635 - INFO - [Styles] Found existing list style: 'List Paragraph'
+2025-12-03 16:37:12,635 - INFO - [RichParagraph] Created bullet with style: 'List Paragraph'
+2025-12-03 16:37:12,639 - INFO - [Styles] Found existing list style: 'List Paragraph'
+2025-12-03 16:37:12,639 - INFO - [RichParagraph] Created bullet with style: 'List Paragraph'
+2025-12-03 16:37:12,640 - INFO - [Styles] Found existing list style: 'List Paragraph'
+2025-12-03 16:37:12,641 - INFO - [RichParagraph] Created bullet with style: 'List Paragraph'
+2025-12-03 16:37:12,645 - INFO - [Styles] Found existing list style: 'List Paragraph'
+2025-12-03 16:37:12,646 - INFO - [RichParagraph] Created bullet with style: 'List Paragraph'
+2025-12-03 16:37:12,646 - INFO - [Styles] Found existing list style: 'List Paragraph'
+2025-12-03 16:37:12,647 - INFO - [RichParagraph] Created bullet with style: 'List Paragraph'
+2025-12-03 16:37:12,648 - INFO - [Styles] Found existing list style: 'List Paragraph'
+2025-12-03 16:37:12,649 - INFO - [RichParagraph] Created bullet with style: 'List Paragraph'
+2025-12-03 16:37:12,667 - INFO - [Styles] Found existing list style: 'List Paragraph'
+2025-12-03 16:37:12,668 - INFO - [RichParagraph] Created bullet with style: 'List Paragraph'
+2025-12-03 16:37:12,671 - INFO - [Styles] Found existing list style: 'List Paragraph'
+2025-12-03 16:37:12,672 - INFO - [RichParagraph] Created bullet with style: 'List Paragraph'
+2025-12-03 16:37:12,678 - INFO - [Styles] Found existing list style: 'List Paragraph'
+2025-12-03 16:37:12,679 - INFO - [RichParagraph] Created bullet with style: 'List Paragraph'
+2025-12-03 16:37:12,680 - INFO - [Styles] Found existing list style: 'List Paragraph'
+2025-12-03 16:37:12,681 - INFO - [RichParagraph] Created bullet with style: 'List Paragraph'
+2025-12-03 16:37:12,684 - INFO - [Styles] Found existing list style: 'List Paragraph'
+2025-12-03 16:37:12,685 - INFO - [RichParagraph] Created bullet with style: 'List Paragraph'
+2025-12-03 16:37:12,686 - INFO - [Styles] Found existing list style: 'List Paragraph'
+2025-12-03 16:37:12,687 - INFO - [RichParagraph] Created bullet with style: 'List Paragraph'
+2025-12-03 16:37:12,768 - INFO - Chamando _process_dynamic_table_placeholder agora...
+2025-12-03 16:37:55,760 - INFO - Processing request of type ListToolsRequest
+2025-12-03 16:38:12,296 - INFO - Processing request of type CallToolRequest
+2025-12-03 16:38:12,342 - INFO - Chamando _process_dynamic_table_placeholder agora...
+2025-12-03 16:41:09,840 - INFO - Processing request of type ListToolsRequest
+2025-12-03 16:42:03,297 - INFO - Processing request of type CallToolRequest
+2025-12-03 16:42:03,340 - INFO - Chamando _process_dynamic_table_placeholder agora...
+2025-12-03 16:42:33,124 - INFO - Processing request of type ListToolsRequest
+2025-12-03 16:42:47,201 - INFO - Processing request of type CallToolRequest
+2025-12-03 16:42:47,240 - INFO - Chamando _process_dynamic_table_placeholder agora...
+2025-12-03 16:48:11,863 - INFO - Processing request of type CallToolRequest
+2025-12-03 16:48:11,906 - INFO - Chamando _process_dynamic_table_placeholder agora...
+2025-12-03 16:49:55,789 - INFO - Processing request of type ListToolsRequest
+2025-12-03 16:52:37,331 - INFO - Processing request of type ListToolsRequest
+2025-12-03 16:52:49,254 - INFO - Processing request of type CallToolRequest
+2025-12-03 16:52:49,301 - INFO - Chamando _process_dynamic_table_placeholder agora...
+2025-12-03 16:55:42,453 - INFO - Processing request of type ListToolsRequest
+2025-12-03 16:55:55,341 - INFO - Processing request of type CallToolRequest
+2025-12-03 16:55:55,379 - INFO - Chamando _process_dynamic_table_placeholder agora...
+2025-12-03 16:58:02,644 - INFO - Processing request of type ListToolsRequest
+2025-12-03 17:01:00,320 - INFO - Processing request of type ListToolsRequest
+2025-12-03 17:01:15,716 - INFO - Processing request of type CallToolRequest
+2025-12-03 17:01:15,774 - INFO - Chamando _process_dynamic_table_placeholder agora...
+2025-12-03 17:01:30,579 - INFO - Processing request of type ListToolsRequest
+2025-12-03 17:03:39,963 - INFO - Processing request of type ListToolsRequest
+2025-12-03 17:03:51,379 - INFO - Processing request of type CallToolRequest
+2025-12-03 17:03:51,426 - INFO - Chamando _process_dynamic_table_placeholder agora...
+2025-12-03 17:04:03,448 - INFO - Processing request of type ListToolsRequest
+2025-12-03 17:04:15,679 - INFO - Processing request of type CallToolRequest
+2025-12-03 17:04:15,687 - INFO - Chamando _process_dynamic_table_placeholder agora...
+2025-12-03 17:07:21,097 - INFO - Processing request of type ListToolsRequest
+2025-12-03 17:07:35,007 - INFO - Processing request of type CallToolRequest
+2025-12-03 17:07:35,048 - INFO - Chamando _process_dynamic_table_placeholder agora...
+2025-12-03 17:07:48,012 - INFO - Processing request of type ListToolsRequest
+2025-12-03 17:08:03,854 - INFO - Processing request of type CallToolRequest
+2025-12-03 17:08:03,866 - INFO - [Styles] Found existing list style: 'List Paragraph'
+2025-12-03 17:08:03,866 - INFO - [RichParagraph] Created bullet with style: 'List Paragraph'
+2025-12-03 17:08:03,867 - INFO - [Styles] Found existing list style: 'List Paragraph'
+2025-12-03 17:08:03,868 - INFO - [RichParagraph] Created bullet with style: 'List Paragraph'
+2025-12-03 17:08:03,868 - INFO - [Styles] Found existing list style: 'List Paragraph'
+2025-12-03 17:08:03,869 - INFO - [RichParagraph] Created bullet with style: 'List Paragraph'
+2025-12-03 17:08:03,897 - INFO - Chamando _process_dynamic_table_placeholder agora...
+2025-12-03 17:08:26,609 - INFO - Processing request of type ListToolsRequest
+2025-12-03 17:08:41,076 - INFO - Processing request of type ListToolsRequest
+2025-12-03 17:15:53,911 - INFO - Processing request of type ListToolsRequest
+2025-12-03 17:16:21,567 - INFO - Processing request of type ListToolsRequest
+2025-12-03 17:19:11,945 - INFO - Processing request of type ListToolsRequest
+2025-12-03 17:22:21,047 - INFO - Processing request of type ListToolsRequest
+2025-12-04 14:36:11,706 - INFO - Processing request of type ListToolsRequest
+2025-12-04 14:37:05,301 - INFO - Processing request of type ListToolsRequest
+2025-12-04 14:37:33,506 - INFO - Processing request of type CallToolRequest
+2025-12-04 14:37:33,648 - INFO - Chamando _process_dynamic_table_placeholder agora...
+2025-12-04 14:39:17,079 - INFO - Processing request of type ListToolsRequest
+2025-12-04 14:39:59,449 - INFO - Processing request of type CallToolRequest
+2025-12-04 14:39:59,501 - INFO - Chamando _process_dynamic_table_placeholder agora...
+2025-12-04 14:43:32,156 - INFO - Processing request of type CallToolRequest
+2025-12-04 14:43:32,235 - INFO - Chamando _process_dynamic_table_placeholder agora...
+2025-12-04 14:43:33,293 - INFO - Processing request of type CallToolRequest
+2025-12-04 14:43:33,334 - INFO - Chamando _process_dynamic_table_placeholder agora...
+2025-12-04 14:43:42,902 - INFO - Processing request of type CallToolRequest
+2025-12-04 14:43:42,944 - INFO - Chamando _process_dynamic_table_placeholder agora...

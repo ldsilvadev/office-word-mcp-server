@@ -50,6 +50,97 @@ def ensure_table_style(doc):
         pass
 
 
+def ensure_paragraph_style(doc):
+    """
+    Ensure Parágrafo (Body Text) style exists in the document.
+    Creates it if it doesn't exist with proper formatting.
+    
+    Args:
+        doc: Document object
+        
+    Returns:
+        The style name to use
+    """
+    from docx.shared import Pt, Cm
+    from docx.enum.text import WD_ALIGN_PARAGRAPH
+    
+    # Try to find existing paragraph style
+    style_names_to_try = ['Parágrafo', 'Paragrafo', 'Body Text', 'Corpo de texto']
+    
+    for style_name in style_names_to_try:
+        try:
+            style = doc.styles[style_name]
+            return style_name
+        except KeyError:
+            continue
+    
+    # Create 'Parágrafo' style if none exists
+    try:
+        style = doc.styles.add_style('Parágrafo', WD_STYLE_TYPE.PARAGRAPH)
+        style.base_style = doc.styles['Normal']
+        style.font.name = 'Arial'
+        style.font.size = Pt(11)
+        style.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+        style.paragraph_format.first_line_indent = Cm(1.25)
+        style.paragraph_format.space_after = Pt(6)
+        style.paragraph_format.space_before = Pt(0)
+        style.paragraph_format.line_spacing = 1.5
+        return 'Parágrafo'
+    except Exception:
+        # If creation fails, return None to use manual formatting
+        return None
+
+
+def ensure_list_paragraph_style(doc):
+    """
+    Ensure List Paragraph style exists in the document.
+    This is the proper style for bullet and numbered lists in Word.
+    
+    Args:
+        doc: Document object
+        
+    Returns:
+        The style name to use for list items
+    """
+    from docx.shared import Pt, Cm
+    import logging
+    
+    # Try to find existing list paragraph style (Portuguese and English variants)
+    # Order matters: prefer the style that exists in the template
+    style_names_to_try = [
+        'List Paragraph',      # English (common in templates)
+        'Parágrafo da Lista',  # Portuguese
+        'Párrafo de lista',    # Spanish
+    ]
+    
+    for style_name in style_names_to_try:
+        try:
+            style = doc.styles[style_name]
+            logging.info(f"[Styles] Found existing list style: '{style_name}'")
+            return style_name
+        except KeyError:
+            continue
+    
+    # Log all available styles for debugging
+    logging.info(f"[Styles] Available styles in document: {[s.name for s in doc.styles if s.type == WD_STYLE_TYPE.PARAGRAPH]}")
+    
+    # Create 'Parágrafo da Lista' style if none exists (Portuguese name to match Word PT-BR)
+    try:
+        style = doc.styles.add_style('Parágrafo da Lista', WD_STYLE_TYPE.PARAGRAPH)
+        style.base_style = doc.styles['Normal']
+        style.font.name = 'Arial'
+        style.font.size = Pt(11)
+        style.paragraph_format.left_indent = Cm(1.27)  # Standard list indent
+        style.paragraph_format.space_after = Pt(3)
+        style.paragraph_format.space_before = Pt(0)
+        logging.info(f"[Styles] Created new list style: 'Parágrafo da Lista'")
+        return 'Parágrafo da Lista'
+    except Exception as e:
+        logging.error(f"[Styles] Failed to create list style: {e}")
+        # If creation fails, return None to use manual formatting
+        return None
+
+
 def create_style(doc, style_name, style_type, base_style=None, font_properties=None, paragraph_properties=None):
     """
     Create a new style in the document.

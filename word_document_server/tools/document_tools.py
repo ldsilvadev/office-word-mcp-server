@@ -357,6 +357,197 @@ def _replace_in_runs(paragraph, placeholder, value):
     
     return True
 
+
+def _add_formatted_text(paragraph, text):
+    """
+    Add text to paragraph with formatting support.
+    
+    Supports:
+    - **text** for bold
+    - *text* for italic
+    - ***text*** for bold+italic
+    """
+    import re
+    
+    # Pattern to match formatting: ***bold+italic***, **bold**, *italic*
+    pattern = r'(\*\*\*.*?\*\*\*|\*\*.*?\*\*|\*.*?\*)'
+    
+    parts = re.split(pattern, text)
+    
+    for part in parts:
+        if not part:
+            continue
+        
+        if part.startswith('***') and part.endswith('***'):
+            # Bold + Italic
+            run = paragraph.add_run(part[3:-3])
+            run.bold = True
+            run.italic = True
+        elif part.startswith('**') and part.endswith('**'):
+            # Bold
+            run = paragraph.add_run(part[2:-2])
+            run.bold = True
+        elif part.startswith('*') and part.endswith('*') and len(part) > 2:
+            # Italic
+            run = paragraph.add_run(part[1:-1])
+            run.italic = True
+        else:
+            # Normal text
+            paragraph.add_run(part)
+
+
+def _process_rich_paragraph(doc, placeholder_para, text):
+    """
+    Process rich text and replace placeholder paragraph with proper Word elements.
+    
+    Creates native Word elements:
+    - Bullet lists (List Bullet style) with proper indentation
+    - Numbered lists (List Number style) with proper indentation
+    - Bold/Italic text
+    - Regular paragraphs with justification and first line indent
+    """
+    from docx.shared import Pt, Cm, Inches
+    from docx.enum.text import WD_ALIGN_PARAGRAPH
+    from copy import deepcopy
+    import re
+    
+    if not text or not text.strip():
+        # Remove placeholder if no content
+        placeholder_para._element.getparent().remove(placeholder_para._element)
+        return
+    
+    parent = placeholder_para._element.getparent()
+    insert_index = list(parent).index(placeholder_para._element)
+    
+    lines = text.split('\n')
+    elements_to_insert = []
+    is_first_paragraph = True
+    
+    i = 0
+    while i < len(lines):
+        line = lines[i].strip()
+        
+        if not line:
+            i += 1
+            continue
+        
+        # Check for bullet list items (• or - or * at start, or indented bullets)
+        is_bullet = (line.startswith('• ') or line.startswith('- ') or 
+                     line.startswith('* ') or line.startswith('    • '))
+        
+        # Check for numbered list items
+        is_numbered = bool(re.match(r'^\d+\.\s+', line))
+        
+        if is_bullet:
+            # Extract item text
+            if line.startswith('    • '):
+                item_text = line[6:].strip()
+            elif line.startswith('• '):
+                item_text = line[2:].strip()
+            elif line.startswith('- '):
+                item_text = line[2:].strip()
+            else:
+                item_text = line[2:].strip()
+            
+            # Create bullet paragraph with List Paragraph style
+            # IMPORTANT: Set style BEFORE adding any content
+            from word_document_server.core.styles import ensure_list_paragraph_style
+            list_style = ensure_list_paragraph_style(doc)
+            
+            if list_style:
+                # Create paragraph with style directly
+                new_para = doc.add_paragraph(style=list_style)
+                logging.info(f"[RichParagraph] Created bullet with style: '{list_style}'")
+            else:
+                new_para = doc.add_paragraph()
+                logging.warning(f"[RichParagraph] No list style found, using default")
+            
+            # Add bullet character and text
+            run = new_para.add_run('• ')
+            _add_formatted_text(new_para, item_text)
+            
+            # Set proper indentation for list items
+            new_para.paragraph_format.left_indent = Cm(1.27)  # 0.5 inch
+            new_para.paragraph_format.first_line_indent = Cm(-0.63)  # Hanging indent for bullet
+            new_para.paragraph_format.space_after = Pt(3)
+            new_para.paragraph_format.space_before = Pt(0)
+            
+            elements_to_insert.append(new_para._element)
+            is_first_paragraph = False
+            
+        elif is_numbered:
+            # Extract item text and number
+            match = re.match(r'^(\d+)\.\s+', line)
+            number = match.group(1) if match else '1'
+            item_text = re.sub(r'^\d+\.\s+', '', line)
+            
+            # Create numbered paragraph with List Paragraph style
+            # IMPORTANT: Set style BEFORE adding any content
+            from word_document_server.core.styles import ensure_list_paragraph_style
+            list_style = ensure_list_paragraph_style(doc)
+            
+            if list_style:
+                # Create paragraph with style directly
+                new_para = doc.add_paragraph(style=list_style)
+                logging.info(f"[RichParagraph] Created numbered item with style: '{list_style}'")
+            else:
+                new_para = doc.add_paragraph()
+                logging.warning(f"[RichParagraph] No list style found, using default")
+            
+            # Add number and text
+            run = new_para.add_run(f'{number}. ')
+            _add_formatted_text(new_para, item_text)
+            
+            # Set proper indentation for list items
+            new_para.paragraph_format.left_indent = Cm(1.27)  # 0.5 inch
+            new_para.paragraph_format.first_line_indent = Cm(-0.63)  # Hanging indent
+            new_para.paragraph_format.space_after = Pt(3)
+            new_para.paragraph_format.space_before = Pt(0)
+            
+            elements_to_insert.append(new_para._element)
+            is_first_paragraph = False
+            
+        else:
+            # Regular paragraph with justification and first line indent
+            new_para = doc.add_paragraph()
+            
+            # Try to apply paragraph style (Parágrafo, Body Text, or similar)
+            from word_document_server.core.styles import ensure_paragraph_style
+            paragraph_style = ensure_paragraph_style(doc)
+            
+            if paragraph_style:
+                try:
+                    new_para.style = paragraph_style
+                except:
+                    pass
+            
+            _add_formatted_text(new_para, line)
+            new_para.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+            
+            # Add first line indent (1.25cm = Word default)
+            # Skip indent for first paragraph after title
+            if not is_first_paragraph:
+                new_para.paragraph_format.first_line_indent = Cm(1.25)
+            
+            # Set paragraph spacing
+            new_para.paragraph_format.space_after = Pt(6)
+            new_para.paragraph_format.space_before = Pt(0)
+            
+            elements_to_insert.append(new_para._element)
+            is_first_paragraph = False
+        
+        i += 1
+    
+    # Remove placeholder paragraph
+    parent.remove(placeholder_para._element)
+    
+    # Insert new elements at the correct position
+    for idx, elem in enumerate(elements_to_insert):
+        # Remove from end of document (where add_paragraph puts them)
+        elem.getparent().remove(elem)
+        # Insert at correct position
+        parent.insert(insert_index + idx, elem)
+
 def _process_dynamic_table_placeholder(doc, context_data, placeholder_key="tabela_dinamica"):
     import logging 
     
@@ -539,14 +730,16 @@ async def fill_document_simple(template_path: str, output_path: str, data_json: 
                     p_count = 0
                     
                     # Precisamos iterar novamente pelos parágrafos do documento atualizado
-                    for para in doc.paragraphs:
+                    paragraphs_to_process = list(doc.paragraphs)
+                    for para in paragraphs_to_process:
                         if "{{titulo}}" in para.text and t_count < len(loop_data):
                             val = loop_data[t_count].get("titulo", "")
                             _replace_in_runs(para, "{{titulo}}", str(val))
                             t_count += 1
                         elif "{{paragrafo}}" in para.text and p_count < len(loop_data):
                             val = loop_data[p_count].get("paragrafo", "")
-                            _replace_in_runs(para, "{{paragrafo}}", str(val))
+                            # Processar texto rico com listas e formatação
+                            _process_rich_paragraph(doc, para, val)
                             p_count += 1
             
             # STEP 2: Replace simple variables in body
