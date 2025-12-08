@@ -575,22 +575,104 @@ async def insert_text_inline(filename: str, search_text: str, text_to_insert: st
         return f"Failed to insert text inline: {str(e)}"
 
 
+def _normalize_table_data(table_data: List[Any]) -> List[Dict[str, Any]]:
+    """Convert table_data to list of dictionaries format.
+    
+    Accepts:
+        - List of dictionaries: [{"Col1": "val1"}, ...] -> returns as-is
+        - 2D list: [["Header1", "Header2"], ["val1", "val2"], ...] -> converts to dict format
+    
+    Returns:
+        List of dictionaries with headers as keys
+    """
+    if not table_data or len(table_data) == 0:
+        return []
+    
+    # Already in dict format
+    if isinstance(table_data[0], dict):
+        return table_data
+    
+    # Convert 2D list to dict format
+    # First row is headers, rest are data
+    if len(table_data) < 2:
+        # Only headers, no data - return empty with headers as a single row
+        headers = [str(h) for h in table_data[0]]
+        return [{h: "" for h in headers}]
+    
+    headers = [str(h) for h in table_data[0]]
+    result = []
+    for row in table_data[1:]:
+        row_dict = {}
+        for j, header in enumerate(headers):
+            row_dict[header] = str(row[j]) if j < len(row) else ""
+        result.append(row_dict)
+    
+    return result
+
+
+def _create_table_in_doc(doc: Document, table_data: List[Dict[str, Any]]) -> Any:
+    """Create a table in the document from list of dictionaries.
+    
+    Args:
+        doc: Document object
+        table_data: List of dictionaries where keys become headers
+        
+    Returns:
+        The created table object
+    """
+    if not table_data or len(table_data) == 0:
+        return None
+    
+    headers = list(table_data[0].keys())
+    num_cols = len(headers)
+    num_rows = len(table_data) + 1  # +1 for header row
+    
+    table = doc.add_table(rows=num_rows, cols=num_cols)
+    
+    try:
+        table.style = 'Table Grid'
+    except KeyError:
+        pass
+    
+    # Fill header row with bold text
+    header_row = table.rows[0]
+    for j, header in enumerate(headers):
+        cell = header_row.cells[j]
+        cell.text = str(header)
+        for paragraph in cell.paragraphs:
+            for run in paragraph.runs:
+                run.bold = True
+    
+    # Fill data rows
+    for i, row_data in enumerate(table_data):
+        row = table.rows[i + 1]
+        for j, header in enumerate(headers):
+            cell = row.cells[j]
+            cell.text = str(row_data.get(header, ""))
+    
+    return table
+
+
 async def add_section_with_inherited_formatting(filename: str, title: str, paragraph_text: Optional[str] = None, 
-                                              table_data: Optional[List[List[str]]] = None) -> str:
+                                              table_data: Optional[List[Any]] = None) -> str:
     """Add a new section (Title + optional Content) inheriting the style of the last heading.
     
     Args:
         filename: Path to the Word document
         title: Text for the new section title
         paragraph_text: Optional text for a paragraph below the title
-        table_data: Optional 2D list for a table below the title/paragraph
+        table_data: Table data in one of these formats:
+                   - List of dictionaries: [{"Col1": "val1", "Col2": "val2"}, ...] (keys become headers)
+                   - 2D list: [["Header1", "Header2"], ["val1", "val2"], ...] (first row is header)
     """
+    from docx.shared import Pt, Cm
+    from docx.enum.text import WD_ALIGN_PARAGRAPH
+    
     filename = ensure_docx_extension(filename)
     
     if not os.path.exists(filename):
         return f"Document {filename} does not exist"
         
-    # Check if file is writeable
     is_writeable, error_message = check_file_writeable(filename)
     if not is_writeable:
         return f"Cannot modify document: {error_message}. Consider creating a copy first."
@@ -598,49 +680,40 @@ async def add_section_with_inherited_formatting(filename: str, title: str, parag
     try:
         doc = Document(filename)
         
-        # Find the last heading style and potentially the body style
-        target_style = "Heading 1" # Default
+        # Find the last heading style and body style
+        target_style = "Heading 1"
         body_style = None
         
-        # Iterate backwards to find the last heading
         for i in range(len(doc.paragraphs) - 1, -1, -1):
             para = doc.paragraphs[i]
             if para.style and para.style.name.startswith("Heading"):
                 target_style = para.style.name
-                
-                # Check the next paragraph for body style
                 if i + 1 < len(doc.paragraphs):
                     next_para = doc.paragraphs[i + 1]
-                    # Ensure the next paragraph is not another heading
                     if next_para.style and not next_para.style.name.startswith("Heading"):
                         body_style = next_para.style.name
                 break
-                
-        # Add the new title with the inherited style
-        doc.add_paragraph(title, style=target_style)
         
-        # Add optional paragraph
+        # Add the title with inherited heading style
+        title_para = doc.add_paragraph(title, style=target_style)
+        last_element = title_para._p
+        
+        # Add optional paragraph with proper formatting
         if paragraph_text:
-            # Use inherited body style if found, otherwise let add_paragraph handle defaults
-            doc.add_paragraph(paragraph_text, style=body_style)
+            para = doc.add_paragraph()
+            para.text = paragraph_text
+            if body_style:
+                para.style = body_style
+            para.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+            para.paragraph_format.space_after = Pt(6)
+            para.paragraph_format.first_line_indent = Cm(1.25)
+            last_element = para._p
             
-        # Add optional table
+        # Add optional table using shared helper
         if table_data and len(table_data) > 0:
-            rows = len(table_data)
-            cols = len(table_data[0]) if rows > 0 else 0
-            
-            if rows > 0 and cols > 0:
-                table = doc.add_table(rows=rows, cols=cols)
-                # Try to set a default table style
-                try:
-                    table.style = 'Table Grid'
-                except KeyError:
-                    pass
-                    
-                for i, row_data in enumerate(table_data):
-                    for j, cell_text in enumerate(row_data):
-                        if j < cols:
-                            table.cell(i, j).text = str(cell_text)
+            normalized_data = _normalize_table_data(table_data)
+            if normalized_data:
+                _create_table_in_doc(doc, normalized_data)
                             
         doc.save(filename)
         
@@ -653,3 +726,453 @@ async def add_section_with_inherited_formatting(filename: str, title: str, parag
             
     except Exception as e:
         return f"Failed to add section: {str(e)}"
+
+
+# ============================================================================
+# SECTION EDITING TOOLS - Edit sections by number without regenerating document
+# ============================================================================
+
+async def list_document_sections(filename: str) -> str:
+    """List all sections (headings) in a Word document with their numbers and content preview.
+    
+    Args:
+        filename: Path to the Word document
+        
+    Returns:
+        JSON string with list of sections: [{number, title, paragraph_preview, paragraph_index}]
+    """
+    import json
+    filename = ensure_docx_extension(filename)
+    
+    if not os.path.exists(filename):
+        return f"Document {filename} does not exist"
+    
+    try:
+        doc = Document(filename)
+        sections = []
+        current_section = None
+        section_number = 0
+        
+        for i, para in enumerate(doc.paragraphs):
+            # Check if this is a heading (section title)
+            if para.style and para.style.name.startswith("Heading"):
+                # Save previous section if exists
+                if current_section:
+                    sections.append(current_section)
+                
+                section_number += 1
+                current_section = {
+                    "number": section_number,
+                    "title": para.text.strip(),
+                    "title_index": i,
+                    "heading_style": para.style.name,
+                    "paragraphs": [],
+                    "paragraph_indices": []
+                }
+            elif current_section and para.text.strip():
+                # This is content under the current section
+                current_section["paragraphs"].append(para.text.strip()[:100] + "..." if len(para.text) > 100 else para.text.strip())
+                current_section["paragraph_indices"].append(i)
+        
+        # Don't forget the last section
+        if current_section:
+            sections.append(current_section)
+        
+        result = {
+            "total_sections": len(sections),
+            "sections": sections
+        }
+        
+        return json.dumps(result, ensure_ascii=False, indent=2)
+        
+    except Exception as e:
+        return f"Failed to list sections: {str(e)}"
+
+
+async def get_section_content(filename: str, section_number: int) -> str:
+    """Get the full content of a specific section by its number.
+    
+    Args:
+        filename: Path to the Word document
+        section_number: Section number (1-based, e.g., 1 for first section)
+        
+    Returns:
+        JSON with section title and full paragraph content
+    """
+    import json
+    filename = ensure_docx_extension(filename)
+    
+    if not os.path.exists(filename):
+        return f"Document {filename} does not exist"
+    
+    try:
+        doc = Document(filename)
+        current_section_num = 0
+        section_start_idx = None
+        section_title = None
+        section_paragraphs = []
+        section_para_indices = []
+        
+        for i, para in enumerate(doc.paragraphs):
+            if para.style and para.style.name.startswith("Heading"):
+                # If we were collecting a section and found a new heading, stop
+                if current_section_num == section_number:
+                    break
+                    
+                current_section_num += 1
+                if current_section_num == section_number:
+                    section_start_idx = i
+                    section_title = para.text.strip()
+            elif current_section_num == section_number and para.text.strip():
+                section_paragraphs.append(para.text)
+                section_para_indices.append(i)
+        
+        if section_title is None:
+            return f"Section {section_number} not found. Document has {current_section_num} sections."
+        
+        result = {
+            "section_number": section_number,
+            "title": section_title,
+            "title_index": section_start_idx,
+            "content": "\n\n".join(section_paragraphs),
+            "paragraph_indices": section_para_indices,
+            "paragraph_count": len(section_paragraphs)
+        }
+        
+        return json.dumps(result, ensure_ascii=False, indent=2)
+        
+    except Exception as e:
+        return f"Failed to get section content: {str(e)}"
+
+
+async def append_to_section(filename: str, section_number: int, text_to_append: str) -> str:
+    """Append text to the end of a specific section (before the next section starts).
+    
+    This is the PREFERRED way to add content to a section without regenerating the document.
+    
+    Args:
+        filename: Path to the Word document
+        section_number: Section number (1-based, e.g., 4 for fourth section)
+        text_to_append: Text to append to the section
+        
+    Returns:
+        Success message or error
+    """
+    from docx.shared import Pt, Cm
+    from docx.enum.text import WD_ALIGN_PARAGRAPH
+    
+    filename = ensure_docx_extension(filename)
+    
+    if not os.path.exists(filename):
+        return f"Document {filename} does not exist"
+    
+    is_writeable, error_message = check_file_writeable(filename)
+    if not is_writeable:
+        return f"Cannot modify document: {error_message}"
+    
+    try:
+        doc = Document(filename)
+        current_section_num = 0
+        last_para_in_section_idx = None
+        section_title = None
+        
+        # Find the last paragraph of the target section
+        for i, para in enumerate(doc.paragraphs):
+            if para.style and para.style.name.startswith("Heading"):
+                current_section_num += 1
+                if current_section_num == section_number:
+                    section_title = para.text.strip()
+                    last_para_in_section_idx = i  # Start with the heading itself
+                elif current_section_num > section_number:
+                    # We've reached the next section, stop
+                    break
+            elif current_section_num == section_number:
+                # Update last paragraph index for this section
+                last_para_in_section_idx = i
+        
+        if section_title is None:
+            return f"Section {section_number} not found. Document has {current_section_num} sections."
+        
+        if last_para_in_section_idx is None:
+            return f"Could not find insertion point for section {section_number}"
+        
+        # Get the paragraph to insert after
+        target_para = doc.paragraphs[last_para_in_section_idx]
+        
+        # Create new paragraph element
+        new_para = doc.add_paragraph()
+        new_para.text = text_to_append
+        
+        # Try to match the style of existing paragraphs in the section
+        # Look for a non-heading paragraph style in the section
+        body_style = None
+        for i in range(last_para_in_section_idx, -1, -1):
+            para = doc.paragraphs[i]
+            if para.style and not para.style.name.startswith("Heading"):
+                body_style = para.style
+                break
+        
+        if body_style:
+            new_para.style = body_style
+        
+        # Set paragraph formatting
+        new_para.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+        new_para.paragraph_format.space_after = Pt(6)
+        new_para.paragraph_format.first_line_indent = Cm(1.25)
+        
+        # Move the new paragraph to the correct position (after target_para)
+        target_para._p.addnext(new_para._p)
+        
+        doc.save(filename)
+        
+        return f"✅ Text appended to section {section_number} ('{section_title}'). The paragraph was inserted after index {last_para_in_section_idx}."
+        
+    except Exception as e:
+        return f"Failed to append to section: {str(e)}"
+
+
+async def replace_section_content(filename: str, section_number: int, new_content: str, keep_title: bool = True) -> str:
+    """Replace all content in a specific section with new content.
+    
+    Args:
+        filename: Path to the Word document
+        section_number: Section number (1-based)
+        new_content: New content for the section (replaces all paragraphs)
+        keep_title: If True, keeps the section title unchanged (default: True)
+        
+    Returns:
+        Success message or error
+    """
+    from docx.shared import Pt, Cm
+    from docx.enum.text import WD_ALIGN_PARAGRAPH
+    
+    filename = ensure_docx_extension(filename)
+    
+    if not os.path.exists(filename):
+        return f"Document {filename} does not exist"
+    
+    is_writeable, error_message = check_file_writeable(filename)
+    if not is_writeable:
+        return f"Cannot modify document: {error_message}"
+    
+    try:
+        doc = Document(filename)
+        current_section_num = 0
+        section_title = None
+        section_title_idx = None
+        paragraphs_to_remove = []
+        
+        # Find all paragraphs in the target section
+        for i, para in enumerate(doc.paragraphs):
+            if para.style and para.style.name.startswith("Heading"):
+                current_section_num += 1
+                if current_section_num == section_number:
+                    section_title = para.text.strip()
+                    section_title_idx = i
+                elif current_section_num > section_number:
+                    break
+            elif current_section_num == section_number:
+                paragraphs_to_remove.append(i)
+        
+        if section_title is None:
+            return f"Section {section_number} not found."
+        
+        # Remove existing paragraphs (in reverse order to maintain indices)
+        for idx in reversed(paragraphs_to_remove):
+            para = doc.paragraphs[idx]
+            p = para._element
+            p.getparent().remove(p)
+        
+        # Get the title paragraph to insert after
+        title_para = doc.paragraphs[section_title_idx]
+        
+        # Add new content paragraphs
+        new_paragraphs = new_content.split("\n\n")
+        last_element = title_para._p
+        
+        for para_text in new_paragraphs:
+            para_text = para_text.strip()
+            if not para_text:
+                continue
+                
+            new_para = doc.add_paragraph()
+            new_para.text = para_text
+            new_para.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+            new_para.paragraph_format.space_after = Pt(6)
+            new_para.paragraph_format.first_line_indent = Cm(1.25)
+            
+            # Move to correct position
+            new_para._p.getparent().remove(new_para._p)
+            last_element.addnext(new_para._p)
+            last_element = new_para._p
+        
+        doc.save(filename)
+        
+        return f"✅ Section {section_number} ('{section_title}') content replaced successfully."
+        
+    except Exception as e:
+        return f"Failed to replace section content: {str(e)}"
+
+
+async def edit_section_title(filename: str, section_number: int, new_title: str) -> str:
+    """Edit the title of a specific section.
+    
+    Args:
+        filename: Path to the Word document
+        section_number: Section number (1-based)
+        new_title: New title for the section
+        
+    Returns:
+        Success message or error
+    """
+    filename = ensure_docx_extension(filename)
+    
+    if not os.path.exists(filename):
+        return f"Document {filename} does not exist"
+    
+    is_writeable, error_message = check_file_writeable(filename)
+    if not is_writeable:
+        return f"Cannot modify document: {error_message}"
+    
+    try:
+        doc = Document(filename)
+        current_section_num = 0
+        
+        for para in doc.paragraphs:
+            if para.style and para.style.name.startswith("Heading"):
+                current_section_num += 1
+                if current_section_num == section_number:
+                    old_title = para.text
+                    para.text = new_title
+                    doc.save(filename)
+                    return f"✅ Section {section_number} title changed from '{old_title}' to '{new_title}'."
+        
+        return f"Section {section_number} not found. Document has {current_section_num} sections."
+        
+    except Exception as e:
+        return f"Failed to edit section title: {str(e)}"
+
+
+async def append_table_to_section(filename: str, section_number: int, table_data: List[Any], 
+                                   paragraph_before: str = None, paragraph_after: str = None) -> str:
+    """Append a table to the end of a specific section.
+    
+    This tool inserts a table at the end of a section, optionally with text before and/or after.
+    
+    Args:
+        filename: Path to the Word document
+        section_number: Section number (1-based, e.g., 4 for fourth section)
+        table_data: Table data in one of these formats:
+                   - List of dictionaries (PREFERRED): [{"Cargo": "Diretor", "Limite": "1000"}, ...]
+                   - 2D list: [["Cargo", "Limite"], ["Diretor", "1000"], ...]
+        paragraph_before: Optional text to add BEFORE the table
+        paragraph_after: Optional text to add AFTER the table
+        
+    Returns:
+        Success message or error
+    """
+    from docx.shared import Pt, Cm
+    from docx.enum.text import WD_ALIGN_PARAGRAPH
+    
+    filename = ensure_docx_extension(filename)
+    
+    if not os.path.exists(filename):
+        return f"Document {filename} does not exist"
+    
+    is_writeable, error_message = check_file_writeable(filename)
+    if not is_writeable:
+        return f"Cannot modify document: {error_message}"
+    
+    if not table_data or len(table_data) == 0:
+        return "Error: table_data cannot be empty"
+    
+    # Normalize table data to dict format
+    normalized_data = _normalize_table_data(table_data)
+    if not normalized_data:
+        return "Error: Could not process table_data"
+    
+    try:
+        doc = Document(filename)
+        current_section_num = 0
+        last_para_in_section_idx = None
+        section_title = None
+        
+        # Find the last paragraph of the target section
+        for i, para in enumerate(doc.paragraphs):
+            if para.style and para.style.name.startswith("Heading"):
+                current_section_num += 1
+                if current_section_num == section_number:
+                    section_title = para.text.strip()
+                    last_para_in_section_idx = i
+                elif current_section_num > section_number:
+                    break
+            elif current_section_num == section_number:
+                last_para_in_section_idx = i
+        
+        if section_title is None:
+            return f"Section {section_number} not found. Document has {current_section_num} sections."
+        
+        if last_para_in_section_idx is None:
+            return f"Could not find insertion point for section {section_number}"
+        
+        # Get the paragraph to insert after
+        target_para = doc.paragraphs[last_para_in_section_idx]
+        last_element = target_para._p
+        
+        # Find body style
+        body_style = None
+        for i in range(last_para_in_section_idx, -1, -1):
+            para = doc.paragraphs[i]
+            if para.style and not para.style.name.startswith("Heading"):
+                body_style = para.style
+                break
+        
+        # Add paragraph before table if provided
+        if paragraph_before:
+            para_before = doc.add_paragraph()
+            para_before.text = paragraph_before
+            if body_style:
+                para_before.style = body_style
+            para_before.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+            para_before.paragraph_format.space_after = Pt(6)
+            para_before.paragraph_format.first_line_indent = Cm(1.25)
+            
+            para_before._p.getparent().remove(para_before._p)
+            last_element.addnext(para_before._p)
+            last_element = para_before._p
+        
+        # Create table using shared helper
+        table = _create_table_in_doc(doc, normalized_data)
+        
+        # Move table to correct position
+        tbl = table._tbl
+        tbl.getparent().remove(tbl)
+        last_element.addnext(tbl)
+        last_element = tbl
+        
+        # Add paragraph after table if provided
+        if paragraph_after:
+            para_after = doc.add_paragraph()
+            para_after.text = paragraph_after
+            if body_style:
+                para_after.style = body_style
+            para_after.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+            para_after.paragraph_format.space_after = Pt(6)
+            para_after.paragraph_format.first_line_indent = Cm(1.25)
+            
+            para_after._p.getparent().remove(para_after._p)
+            last_element.addnext(para_after._p)
+        
+        doc.save(filename)
+        
+        num_cols = len(normalized_data[0].keys())
+        result_parts = [f"✅ Table ({len(normalized_data)} rows x {num_cols} cols) inserted in section {section_number} ('{section_title}')"]
+        if paragraph_before:
+            result_parts.append("with text before")
+        if paragraph_after:
+            result_parts.append("with text after")
+        
+        return " ".join(result_parts) + "."
+        
+    except Exception as e:
+        return f"Failed to append table to section: {str(e)}"

@@ -6,6 +6,7 @@ Supports multiple transports: stdio, sse, and streamable-http using standalone F
 
 import os
 import sys
+from typing import Optional, List
 from dotenv import load_dotenv
 
 
@@ -461,16 +462,36 @@ def register_tools():
         return replace_block_between_manual_anchors_tool(filename, start_anchor_text, new_paragraphs, end_anchor_text, match_fn, new_paragraph_style)
 
     @mcp.tool()
-    def add_section_with_inherited_formatting(filename: str, title: str, paragraph_text: str = None, table_data: list = None):
-        """Add a new section (Title + optional Content) inheriting the style of the last heading.
+    async def add_section_with_inherited_formatting(
+        filename: str, 
+        title: str, 
+        paragraph_text: Optional[str] = None, 
+        table_data: Optional[List] = None
+    ):
+        """Add a NEW section at the end of the document with title, optional paragraph, and optional table.
+        
+        USE THIS TOOL when user asks to: "adicione uma nova seção", "crie uma seção", "add new section"
         
         Args:
-            filename: Path to the Word document
-            title: Text for the new section title
-            paragraph_text: Optional text for a paragraph below the title
-            table_data: Optional 2D list for a table below the title/paragraph
+            filename: Full path to the Word document (e.g., "C:/path/to/doc.docx")
+            title: Title for the new section (e.g., "Observações Finais")
+            paragraph_text: Optional paragraph text below the title
+            table_data: Optional table data as list of dicts: [{"Col1": "Val1", "Col2": "Val2"}, ...]
+                       
+        Example - Section with title, paragraph and table:
+            add_section_with_inherited_formatting(
+                filename="C:/docs/politica.docx",
+                title="Observações Finais",
+                paragraph_text="Este parágrafo explica a importância das observações...",
+                table_data=[
+                    {"Setor": "TI", "Valor": "R$ 1.000", "Cracha": "12345"},
+                    {"Setor": "RH", "Valor": "R$ 500", "Cracha": "67890"}
+                ]
+            )
+        
+        IMPORTANT: Do NOT upload to SharePoint after using this tool.
         """
-        return content_tools.add_section_with_inherited_formatting(filename, title, paragraph_text, table_data)
+        return await content_tools.add_section_with_inherited_formatting(filename, title, paragraph_text, table_data)
 
     # Comment tools
     @mcp.tool()
@@ -529,6 +550,106 @@ def register_tools():
         return format_tools.set_table_cell_padding(filename, table_index, row_index, col_index,
                                                    top, bottom, left, right, unit)
 
+    # =========================================================================
+    # SECTION EDITING TOOLS - Edit sections by number (PREFERRED for modifications)
+    # =========================================================================
+    
+    @mcp.tool()
+    async def list_document_sections(filename: str):
+        """List all sections (headings) in a Word document with their numbers.
+        
+        Use this to see the structure of the document before editing.
+        Returns: JSON with section numbers, titles, and content previews.
+        
+        Args:
+            filename: Path to the Word document
+        """
+        return await content_tools.list_document_sections(filename)
+    
+    @mcp.tool()
+    async def get_section_content(filename: str, section_number: int):
+        """Get the full content of a specific section by its number.
+        
+        Args:
+            filename: Path to the Word document
+            section_number: Section number (1-based, e.g., 1 for first section, 4 for fourth)
+        """
+        return await content_tools.get_section_content(filename, section_number)
+    
+    @mcp.tool()
+    async def append_to_section(filename: str, section_number: int, text_to_append: str):
+        """Append text to the end of a specific section. THIS IS THE PREFERRED WAY to add content.
+        
+        Use this instead of regenerating the entire document. The text will be added
+        at the end of the specified section, before the next section starts.
+        
+        Args:
+            filename: Path to the Word document
+            section_number: Section number (1-based, e.g., 4 for "Procedimentos")
+            text_to_append: Text to append to the section
+            
+        Example:
+            append_to_section("doc.docx", 4, "This text will be added to section 4.")
+        """
+        return await content_tools.append_to_section(filename, section_number, text_to_append)
+    
+    @mcp.tool()
+    async def replace_section_content(filename: str, section_number: int, new_content: str, keep_title: bool = True):
+        """Replace all content in a specific section with new content.
+        
+        Args:
+            filename: Path to the Word document
+            section_number: Section number (1-based)
+            new_content: New content for the section (use \\n\\n to separate paragraphs)
+            keep_title: If True, keeps the section title unchanged (default: True)
+        """
+        return await content_tools.replace_section_content(filename, section_number, new_content, keep_title)
+    
+    @mcp.tool()
+    async def edit_section_title(filename: str, section_number: int, new_title: str):
+        """Edit the title of a specific section.
+        
+        Args:
+            filename: Path to the Word document
+            section_number: Section number (1-based)
+            new_title: New title for the section
+        """
+        return await content_tools.edit_section_title(filename, section_number, new_title)
+    
+    @mcp.tool()
+    async def append_table_to_section(
+        filename: str, 
+        section_number: int, 
+        table_data: List, 
+        paragraph_before: Optional[str] = None, 
+        paragraph_after: Optional[str] = None
+    ):
+        """Add a table to an EXISTING section in the document.
+        
+        USE THIS TOOL when user asks to: "adicione uma tabela na seção X", "add table to section"
+        
+        Args:
+            filename: Full path to the Word document
+            section_number: Section number (1, 2, 3, etc.)
+            table_data: Table as list of dicts: [{"Col1": "Val1"}, {"Col1": "Val2"}]
+            paragraph_before: Optional text BEFORE the table
+            paragraph_after: Optional text AFTER the table (can be null)
+            
+        Example:
+            append_table_to_section(
+                filename="C:/docs/politica.docx",
+                section_number=7,
+                table_data=[
+                    {"Cargo": "Diretor", "Valor": "R$ 5.000"},
+                    {"Cargo": "Gerente", "Valor": "R$ 3.000"}
+                ],
+                paragraph_before="Confira os valores na tabela abaixo:",
+                paragraph_after=null
+            )
+        
+        IMPORTANT: Do NOT upload to SharePoint after using this tool.
+        """
+        return await content_tools.append_table_to_section(filename, section_number, table_data, paragraph_before, paragraph_after)
 
 
 def run_server():
