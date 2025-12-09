@@ -5287,3 +5287,230 @@
 2025-12-07 22:01:52,380 - INFO - Processing request of type CallToolRequest
 2025-12-07 22:03:10,002 - INFO - Processing request of type ListToolsRequest
 2025-12-07 22:03:16,179 - INFO - Processing request of type CallToolRequest
+2025-12-07 22:18:47,114 - INFO - Processing request of type ListToolsRequest
+2025-12-07 22:18:59,310 - INFO - Processing request of type CallToolRequest
+2025-12-07 22:18:59,329 - INFO - [Template] Formato detectado: paragrafo
+2025-12-07 22:18:59,341 - INFO - Chamando _process_dynamic_table_placeholder agora...
+2025-12-07 22:21:09,337 - INFO - Processing request of type ListToolsRequest
+2025-12-07 22:21:21,242 - INFO - Processing request of type CallToolRequest
+2025-12-07 22:21:21,269 - INFO - [Styles] Available paragraph styles: ['Normal', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5', 'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Body Text', 'List Paragraph', 'Table Paragraph', 'Header', 'Footer']
+2025-12-07 22:21:21,270 - INFO - [Styles] Found paragraph style: 'Body Text'
+2025-12-07 22:21:21,271 - INFO - [RichParagraph] Created paragraph with style: 'Body Text'
+2025-12-07 22:21:21,272 - INFO - [Loop] Section 1 paragraph processed, last_element: True
+2025-12-07 22:21:21,273 - INFO - [Styles] Available paragraph styles: ['Normal', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5', 'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Body Text', 'List Paragraph', 'Table Paragraph', 'Header', 'Footer']
+2025-12-07 22:21:21,273 - INFO - [Styles] Found paragraph style: 'Body Text'
+2025-12-07 22:21:21,274 - INFO - [RichParagraph] Created paragraph with style: 'Body Text'
+2025-12-07 22:21:21,274 - INFO - [Loop] Section 2 paragraph processed, last_element: True
+2025-12-07 22:21:21,275 - INFO - [Styles] Available paragraph styles: ['Normal', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5', 'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Body Text', 'List Paragraph', 'Table Paragraph', 'Header', 'Footer']
+2025-12-07 22:21:21,276 - INFO - [Styles] Found paragraph style: 'Body Text'
+2025-12-07 22:21:21,276 - INFO - [RichParagraph] Created paragraph with style: 'Body Text'
+2025-12-07 22:21:21,276 - INFO - [Loop] Section 3 paragraph processed, last_element: True
+2025-12-07 22:21:21,277 - INFO - [Styles] Available paragraph styles: ['Normal', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5', 'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Body Text', 'List Paragraph', 'Table Paragraph', 'Header', 'Footer']
+2025-12-07 22:21:21,278 - INFO - [Styles] Found paragraph style: 'Body Text'
+2025-12-07 22:21:21,278 - INFO - [RichParagraph] Created paragraph with style: 'Body Text'
+2025-12-07 22:21:21,279 - INFO - [Loop] Section 4 paragraph processed, last_element: True
+2025-12-07 22:21:21,280 - INFO - [Styles] Available paragraph styles: ['Normal', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5', 'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Body Text', 'List Paragraph', 'Table Paragraph', 'Header', 'Footer']
+2025-12-07 22:21:21,280 - INFO - [Styles] Found paragraph style: 'Body Text'
+2025-12-07 22:21:21,281 - INFO - [RichParagraph] Created paragraph with style: 'Body Text'
+2025-12-07 22:21:21,281 - INFO - [Loop] Section 5 paragraph processed, last_element: True
+2025-12-07 22:21:21,282 - INFO - [Styles] Available paragraph styles: ['Normal', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5', 'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Body Text', 'List Paragraph', 'Table Paragraph', 'Header', 'Footer']
+2025-12-07 22:21:21,283 - INFO - [Styles] Found paragraph style: 'Body Text'
+2025-12-07 22:21:21,283 - INFO - [RichParagraph] Created paragraph with style: 'Body Text'
+2025-12-07 22:21:21,283 - INFO - [Loop] Section 6 paragraph processed, last_element: True
+2025-12-07 22:21:21,284 - INFO - [Styles] Available paragraph styles: ['Normal', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5', 'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Body Text', 'List Paragraph', 'Table Paragraph', 'Header', 'Footer']
+2025-12-07 22:21:21,285 - INFO - [Styles] Found paragraph style: 'Body Text'
+2025-12-07 22:21:21,285 - INFO - [RichParagraph] Created paragraph with style: 'Body Text'
+2025-12-07 22:21:21,285 - INFO - [Loop] Section 7 paragraph processed, last_element: True
+2025-12-07 22:21:21,287 - INFO - [Styles] Available paragraph styles: ['Normal', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5', 'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Body Text', 'List Paragraph', 'Table Paragraph', 'Header', 'Footer']
+2025-12-07 22:21:21,287 - INFO - [Styles] Found paragraph style: 'Body Text'
+2025-12-07 22:21:21,288 - INFO - [RichParagraph] Created paragraph with style: 'Body Text'
+2025-12-07 22:21:21,288 - INFO - [Loop] Section 8 paragraph processed, last_element: True
+2025-12-07 22:21:21,289 - INFO - [Styles] Available paragraph styles: ['Normal', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5', 'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Body Text', 'List Paragraph', 'Table Paragraph', 'Header', 'Footer']
+2025-12-07 22:21:21,290 - INFO - [Styles] Found paragraph style: 'Body Text'
+2025-12-07 22:21:21,290 - INFO - [RichParagraph] Created paragraph with style: 'Body Text'
+2025-12-07 22:21:21,291 - INFO - [Loop] Section 9 paragraph processed, last_element: True
+2025-12-07 22:21:21,292 - INFO - [Styles] Available paragraph styles: ['Normal', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5', 'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Body Text', 'List Paragraph', 'Table Paragraph', 'Header', 'Footer']
+2025-12-07 22:21:21,292 - INFO - [Styles] Found paragraph style: 'Body Text'
+2025-12-07 22:21:21,292 - INFO - [RichParagraph] Created paragraph with style: 'Body Text'
+2025-12-07 22:21:21,293 - INFO - [Loop] Section 10 paragraph processed, last_element: True
+2025-12-07 22:21:21,294 - INFO - [Styles] Available paragraph styles: ['Normal', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5', 'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Body Text', 'List Paragraph', 'Table Paragraph', 'Header', 'Footer']
+2025-12-07 22:21:21,294 - INFO - [Styles] Found paragraph style: 'Body Text'
+2025-12-07 22:21:21,295 - INFO - [RichParagraph] Created paragraph with style: 'Body Text'
+2025-12-07 22:21:21,295 - INFO - [Loop] Section 11 paragraph processed, last_element: True
+2025-12-07 22:21:21,296 - INFO - [Styles] Available paragraph styles: ['Normal', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5', 'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Body Text', 'List Paragraph', 'Table Paragraph', 'Header', 'Footer']
+2025-12-07 22:21:21,296 - INFO - [Styles] Found paragraph style: 'Body Text'
+2025-12-07 22:21:21,297 - INFO - [RichParagraph] Created paragraph with style: 'Body Text'
+2025-12-07 22:21:21,297 - INFO - [Loop] Section 12 paragraph processed, last_element: True
+2025-12-07 22:21:21,307 - INFO - Chamando _process_dynamic_table_placeholder agora...
+2025-12-07 22:22:03,179 - INFO - Processing request of type ListToolsRequest
+2025-12-07 22:22:08,676 - INFO - Processing request of type CallToolRequest
+2025-12-07 22:22:10,271 - INFO - Processing request of type CallToolRequest
+2025-12-07 22:22:54,909 - INFO - Processing request of type ListToolsRequest
+2025-12-07 22:23:00,030 - INFO - Processing request of type CallToolRequest
+2025-12-07 22:23:02,364 - INFO - Processing request of type CallToolRequest
+2025-12-07 22:23:45,341 - INFO - Processing request of type ListToolsRequest
+2025-12-07 22:23:51,729 - INFO - Processing request of type CallToolRequest
+2025-12-07 22:23:55,081 - INFO - Processing request of type CallToolRequest
+2025-12-08 10:20:24,726 - INFO - Processing request of type ListToolsRequest
+2025-12-08 10:21:35,978 - INFO - Processing request of type ListToolsRequest
+2025-12-08 10:21:44,533 - INFO - Processing request of type CallToolRequest
+2025-12-08 10:21:44,559 - INFO - [Styles] Available paragraph styles: ['Normal', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5', 'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Body Text', 'List Paragraph', 'Table Paragraph', 'Header', 'Footer']
+2025-12-08 10:21:44,559 - INFO - [Styles] Found paragraph style: 'Body Text'
+2025-12-08 10:21:44,560 - INFO - [RichParagraph] Created paragraph with style: 'Body Text'
+2025-12-08 10:21:44,561 - INFO - [Loop] Section 1 paragraph processed, last_element: True
+2025-12-08 10:21:44,562 - INFO - [Styles] Available paragraph styles: ['Normal', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5', 'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Body Text', 'List Paragraph', 'Table Paragraph', 'Header', 'Footer']
+2025-12-08 10:21:44,563 - INFO - [Styles] Found paragraph style: 'Body Text'
+2025-12-08 10:21:44,564 - INFO - [RichParagraph] Created paragraph with style: 'Body Text'
+2025-12-08 10:21:44,564 - INFO - [Loop] Section 2 paragraph processed, last_element: True
+2025-12-08 10:21:44,565 - INFO - [Styles] Available paragraph styles: ['Normal', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5', 'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Body Text', 'List Paragraph', 'Table Paragraph', 'Header', 'Footer']
+2025-12-08 10:21:44,566 - INFO - [Styles] Found paragraph style: 'Body Text'
+2025-12-08 10:21:44,566 - INFO - [RichParagraph] Created paragraph with style: 'Body Text'
+2025-12-08 10:21:44,566 - INFO - [Loop] Section 3 paragraph processed, last_element: True
+2025-12-08 10:21:44,567 - INFO - [Styles] Available paragraph styles: ['Normal', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5', 'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Body Text', 'List Paragraph', 'Table Paragraph', 'Header', 'Footer']
+2025-12-08 10:21:44,568 - INFO - [Styles] Found paragraph style: 'Body Text'
+2025-12-08 10:21:44,568 - INFO - [RichParagraph] Created paragraph with style: 'Body Text'
+2025-12-08 10:21:44,569 - INFO - [Loop] Section 4 paragraph processed, last_element: True
+2025-12-08 10:21:44,570 - INFO - [Styles] Available paragraph styles: ['Normal', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5', 'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Body Text', 'List Paragraph', 'Table Paragraph', 'Header', 'Footer']
+2025-12-08 10:21:44,571 - INFO - [Styles] Found paragraph style: 'Body Text'
+2025-12-08 10:21:44,571 - INFO - [RichParagraph] Created paragraph with style: 'Body Text'
+2025-12-08 10:21:44,572 - INFO - [Loop] Section 5 paragraph processed, last_element: True
+2025-12-08 10:21:44,573 - INFO - [Styles] Available paragraph styles: ['Normal', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5', 'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Body Text', 'List Paragraph', 'Table Paragraph', 'Header', 'Footer']
+2025-12-08 10:21:44,576 - INFO - [Styles] Found paragraph style: 'Body Text'
+2025-12-08 10:21:44,577 - INFO - [RichParagraph] Created paragraph with style: 'Body Text'
+2025-12-08 10:21:44,577 - INFO - [Loop] Section 6 paragraph processed, last_element: True
+2025-12-08 10:21:44,579 - INFO - [Styles] Available paragraph styles: ['Normal', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5', 'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Body Text', 'List Paragraph', 'Table Paragraph', 'Header', 'Footer']
+2025-12-08 10:21:44,580 - INFO - [Styles] Found paragraph style: 'Body Text'
+2025-12-08 10:21:44,580 - INFO - [RichParagraph] Created paragraph with style: 'Body Text'
+2025-12-08 10:21:44,580 - INFO - [Loop] Section 7 paragraph processed, last_element: True
+2025-12-08 10:21:44,582 - INFO - [Styles] Available paragraph styles: ['Normal', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5', 'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Body Text', 'List Paragraph', 'Table Paragraph', 'Header', 'Footer']
+2025-12-08 10:21:44,582 - INFO - [Styles] Found paragraph style: 'Body Text'
+2025-12-08 10:21:44,583 - INFO - [RichParagraph] Created paragraph with style: 'Body Text'
+2025-12-08 10:21:44,583 - INFO - [Loop] Section 8 paragraph processed, last_element: True
+2025-12-08 10:21:44,584 - INFO - [Styles] Available paragraph styles: ['Normal', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5', 'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Body Text', 'List Paragraph', 'Table Paragraph', 'Header', 'Footer']
+2025-12-08 10:21:44,585 - INFO - [Styles] Found paragraph style: 'Body Text'
+2025-12-08 10:21:44,585 - INFO - [RichParagraph] Created paragraph with style: 'Body Text'
+2025-12-08 10:21:44,585 - INFO - [Loop] Section 9 paragraph processed, last_element: True
+2025-12-08 10:21:44,586 - INFO - [Styles] Available paragraph styles: ['Normal', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5', 'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Body Text', 'List Paragraph', 'Table Paragraph', 'Header', 'Footer']
+2025-12-08 10:21:44,587 - INFO - [Styles] Found paragraph style: 'Body Text'
+2025-12-08 10:21:44,587 - INFO - [RichParagraph] Created paragraph with style: 'Body Text'
+2025-12-08 10:21:44,588 - INFO - [Loop] Section 10 paragraph processed, last_element: True
+2025-12-08 10:21:44,589 - INFO - [Styles] Available paragraph styles: ['Normal', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5', 'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Body Text', 'List Paragraph', 'Table Paragraph', 'Header', 'Footer']
+2025-12-08 10:21:44,589 - INFO - [Styles] Found paragraph style: 'Body Text'
+2025-12-08 10:21:44,590 - INFO - [RichParagraph] Created paragraph with style: 'Body Text'
+2025-12-08 10:21:44,590 - INFO - [Loop] Section 11 paragraph processed, last_element: True
+2025-12-08 10:21:44,591 - INFO - [Styles] Available paragraph styles: ['Normal', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5', 'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Body Text', 'List Paragraph', 'Table Paragraph', 'Header', 'Footer']
+2025-12-08 10:21:44,592 - INFO - [Styles] Found paragraph style: 'Body Text'
+2025-12-08 10:21:44,592 - INFO - [RichParagraph] Created paragraph with style: 'Body Text'
+2025-12-08 10:21:44,592 - INFO - [Loop] Section 12 paragraph processed, last_element: True
+2025-12-08 10:21:44,606 - INFO - Chamando _process_dynamic_table_placeholder agora...
+2025-12-08 10:23:24,428 - INFO - Processing request of type ListToolsRequest
+2025-12-08 10:23:36,309 - INFO - Processing request of type CallToolRequest
+2025-12-08 10:23:36,451 - INFO - [Styles] Available paragraph styles: ['Normal', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5', 'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Body Text', 'List Paragraph', 'Table Paragraph', 'Header', 'Footer']
+2025-12-08 10:23:36,452 - INFO - [Styles] Found paragraph style: 'Body Text'
+2025-12-08 10:23:36,454 - INFO - [RichParagraph] Created paragraph with style: 'Body Text'
+2025-12-08 10:23:36,458 - INFO - [Loop] Section 1 paragraph processed, last_element: True
+2025-12-08 10:23:36,460 - INFO - [Styles] Available paragraph styles: ['Normal', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5', 'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Body Text', 'List Paragraph', 'Table Paragraph', 'Header', 'Footer']
+2025-12-08 10:23:36,460 - INFO - [Styles] Found paragraph style: 'Body Text'
+2025-12-08 10:23:36,461 - INFO - [RichParagraph] Created paragraph with style: 'Body Text'
+2025-12-08 10:23:36,461 - INFO - [Loop] Section 2 paragraph processed, last_element: True
+2025-12-08 10:23:36,462 - INFO - [Styles] Available paragraph styles: ['Normal', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5', 'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Body Text', 'List Paragraph', 'Table Paragraph', 'Header', 'Footer']
+2025-12-08 10:23:36,463 - INFO - [Styles] Found paragraph style: 'Body Text'
+2025-12-08 10:23:36,463 - INFO - [RichParagraph] Created paragraph with style: 'Body Text'
+2025-12-08 10:23:36,463 - INFO - [Loop] Section 3 paragraph processed, last_element: True
+2025-12-08 10:23:36,464 - INFO - [Styles] Available paragraph styles: ['Normal', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5', 'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Body Text', 'List Paragraph', 'Table Paragraph', 'Header', 'Footer']
+2025-12-08 10:23:36,465 - INFO - [Styles] Found paragraph style: 'Body Text'
+2025-12-08 10:23:36,465 - INFO - [RichParagraph] Created paragraph with style: 'Body Text'
+2025-12-08 10:23:36,465 - INFO - [Loop] Section 4 paragraph processed, last_element: True
+2025-12-08 10:23:36,466 - INFO - [Styles] Available paragraph styles: ['Normal', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5', 'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Body Text', 'List Paragraph', 'Table Paragraph', 'Header', 'Footer']
+2025-12-08 10:23:36,467 - INFO - [Styles] Found paragraph style: 'Body Text'
+2025-12-08 10:23:36,467 - INFO - [RichParagraph] Created paragraph with style: 'Body Text'
+2025-12-08 10:23:36,468 - INFO - [Loop] Section 5 paragraph processed, last_element: True
+2025-12-08 10:23:36,469 - INFO - [Styles] Available paragraph styles: ['Normal', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5', 'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Body Text', 'List Paragraph', 'Table Paragraph', 'Header', 'Footer']
+2025-12-08 10:23:36,469 - INFO - [Styles] Found paragraph style: 'Body Text'
+2025-12-08 10:23:36,470 - INFO - [RichParagraph] Created paragraph with style: 'Body Text'
+2025-12-08 10:23:36,470 - INFO - [Loop] Section 6 paragraph processed, last_element: True
+2025-12-08 10:23:36,471 - INFO - [Styles] Available paragraph styles: ['Normal', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5', 'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Body Text', 'List Paragraph', 'Table Paragraph', 'Header', 'Footer']
+2025-12-08 10:23:36,472 - INFO - [Styles] Found paragraph style: 'Body Text'
+2025-12-08 10:23:36,472 - INFO - [RichParagraph] Created paragraph with style: 'Body Text'
+2025-12-08 10:23:36,472 - INFO - [Loop] Section 7 paragraph processed, last_element: True
+2025-12-08 10:23:36,473 - INFO - [Styles] Available paragraph styles: ['Normal', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5', 'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Body Text', 'List Paragraph', 'Table Paragraph', 'Header', 'Footer']
+2025-12-08 10:23:36,474 - INFO - [Styles] Found paragraph style: 'Body Text'
+2025-12-08 10:23:36,474 - INFO - [RichParagraph] Created paragraph with style: 'Body Text'
+2025-12-08 10:23:36,474 - INFO - [Loop] Section 8 paragraph processed, last_element: True
+2025-12-08 10:23:36,475 - INFO - [Styles] Available paragraph styles: ['Normal', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5', 'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Body Text', 'List Paragraph', 'Table Paragraph', 'Header', 'Footer']
+2025-12-08 10:23:36,476 - INFO - [Styles] Found paragraph style: 'Body Text'
+2025-12-08 10:23:36,477 - INFO - [RichParagraph] Created paragraph with style: 'Body Text'
+2025-12-08 10:23:36,477 - INFO - [Loop] Section 9 paragraph processed, last_element: True
+2025-12-08 10:23:36,478 - INFO - [Styles] Available paragraph styles: ['Normal', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5', 'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Body Text', 'List Paragraph', 'Table Paragraph', 'Header', 'Footer']
+2025-12-08 10:23:36,478 - INFO - [Styles] Found paragraph style: 'Body Text'
+2025-12-08 10:23:36,479 - INFO - [RichParagraph] Created paragraph with style: 'Body Text'
+2025-12-08 10:23:36,479 - INFO - [Loop] Section 10 paragraph processed, last_element: True
+2025-12-08 10:23:36,480 - INFO - [Styles] Available paragraph styles: ['Normal', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5', 'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Body Text', 'List Paragraph', 'Table Paragraph', 'Header', 'Footer']
+2025-12-08 10:23:36,481 - INFO - [Styles] Found paragraph style: 'Body Text'
+2025-12-08 10:23:36,481 - INFO - [RichParagraph] Created paragraph with style: 'Body Text'
+2025-12-08 10:23:36,481 - INFO - [Loop] Section 11 paragraph processed, last_element: True
+2025-12-08 10:23:36,482 - INFO - [Styles] Available paragraph styles: ['Normal', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5', 'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Body Text', 'List Paragraph', 'Table Paragraph', 'Header', 'Footer']
+2025-12-08 10:23:36,483 - INFO - [Styles] Found paragraph style: 'Body Text'
+2025-12-08 10:23:36,483 - INFO - [RichParagraph] Created paragraph with style: 'Body Text'
+2025-12-08 10:23:36,483 - INFO - [Loop] Section 12 paragraph processed, last_element: True
+2025-12-08 10:23:36,494 - INFO - Chamando _process_dynamic_table_placeholder agora...
+2025-12-08 10:49:02,647 - INFO - Processing request of type ListToolsRequest
+2025-12-08 10:49:13,910 - INFO - Processing request of type CallToolRequest
+2025-12-08 10:49:13,981 - INFO - [Styles] Available paragraph styles: ['Normal', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5', 'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Body Text', 'List Paragraph', 'Table Paragraph', 'Header', 'Footer']
+2025-12-08 10:49:13,982 - INFO - [Styles] Found paragraph style: 'Body Text'
+2025-12-08 10:49:13,983 - INFO - [RichParagraph] Created paragraph with style: 'Body Text'
+2025-12-08 10:49:13,984 - INFO - [Loop] Section 1 paragraph processed, last_element: True
+2025-12-08 10:49:13,986 - INFO - [Styles] Available paragraph styles: ['Normal', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5', 'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Body Text', 'List Paragraph', 'Table Paragraph', 'Header', 'Footer']
+2025-12-08 10:49:13,987 - INFO - [Styles] Found paragraph style: 'Body Text'
+2025-12-08 10:49:13,987 - INFO - [RichParagraph] Created paragraph with style: 'Body Text'
+2025-12-08 10:49:13,988 - INFO - [Loop] Section 2 paragraph processed, last_element: True
+2025-12-08 10:49:13,989 - INFO - [Styles] Available paragraph styles: ['Normal', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5', 'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Body Text', 'List Paragraph', 'Table Paragraph', 'Header', 'Footer']
+2025-12-08 10:49:13,990 - INFO - [Styles] Found paragraph style: 'Body Text'
+2025-12-08 10:49:13,991 - INFO - [RichParagraph] Created paragraph with style: 'Body Text'
+2025-12-08 10:49:13,991 - INFO - [Loop] Section 3 paragraph processed, last_element: True
+2025-12-08 10:49:13,992 - INFO - [Styles] Available paragraph styles: ['Normal', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5', 'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Body Text', 'List Paragraph', 'Table Paragraph', 'Header', 'Footer']
+2025-12-08 10:49:13,994 - INFO - [Styles] Found paragraph style: 'Body Text'
+2025-12-08 10:49:13,995 - INFO - [RichParagraph] Created paragraph with style: 'Body Text'
+2025-12-08 10:49:13,996 - INFO - [Loop] Section 4 paragraph processed, last_element: True
+2025-12-08 10:49:13,998 - INFO - [Styles] Available paragraph styles: ['Normal', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5', 'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Body Text', 'List Paragraph', 'Table Paragraph', 'Header', 'Footer']
+2025-12-08 10:49:14,002 - INFO - [Styles] Found paragraph style: 'Body Text'
+2025-12-08 10:49:14,003 - INFO - [RichParagraph] Created paragraph with style: 'Body Text'
+2025-12-08 10:49:14,003 - INFO - [Loop] Section 5 paragraph processed, last_element: True
+2025-12-08 10:49:14,005 - INFO - [Styles] Available paragraph styles: ['Normal', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5', 'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Body Text', 'List Paragraph', 'Table Paragraph', 'Header', 'Footer']
+2025-12-08 10:49:14,006 - INFO - [Styles] Found paragraph style: 'Body Text'
+2025-12-08 10:49:14,007 - INFO - [RichParagraph] Created paragraph with style: 'Body Text'
+2025-12-08 10:49:14,007 - INFO - [Loop] Section 6 paragraph processed, last_element: True
+2025-12-08 10:49:14,009 - INFO - [Styles] Available paragraph styles: ['Normal', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5', 'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Body Text', 'List Paragraph', 'Table Paragraph', 'Header', 'Footer']
+2025-12-08 10:49:14,009 - INFO - [Styles] Found paragraph style: 'Body Text'
+2025-12-08 10:49:14,010 - INFO - [RichParagraph] Created paragraph with style: 'Body Text'
+2025-12-08 10:49:14,011 - INFO - [Loop] Section 7 paragraph processed, last_element: True
+2025-12-08 10:49:14,012 - INFO - [Styles] Available paragraph styles: ['Normal', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5', 'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Body Text', 'List Paragraph', 'Table Paragraph', 'Header', 'Footer']
+2025-12-08 10:49:14,013 - INFO - [Styles] Found paragraph style: 'Body Text'
+2025-12-08 10:49:14,014 - INFO - [RichParagraph] Created paragraph with style: 'Body Text'
+2025-12-08 10:49:14,014 - INFO - [Loop] Section 8 paragraph processed, last_element: True
+2025-12-08 10:49:14,016 - INFO - [Styles] Available paragraph styles: ['Normal', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5', 'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Body Text', 'List Paragraph', 'Table Paragraph', 'Header', 'Footer']
+2025-12-08 10:49:14,017 - INFO - [Styles] Found paragraph style: 'Body Text'
+2025-12-08 10:49:14,017 - INFO - [RichParagraph] Created paragraph with style: 'Body Text'
+2025-12-08 10:49:14,018 - INFO - [Loop] Section 9 paragraph processed, last_element: True
+2025-12-08 10:49:14,019 - INFO - [Styles] Available paragraph styles: ['Normal', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5', 'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Body Text', 'List Paragraph', 'Table Paragraph', 'Header', 'Footer']
+2025-12-08 10:49:14,020 - INFO - [Styles] Found paragraph style: 'Body Text'
+2025-12-08 10:49:14,021 - INFO - [RichParagraph] Created paragraph with style: 'Body Text'
+2025-12-08 10:49:14,021 - INFO - [Loop] Section 10 paragraph processed, last_element: True
+2025-12-08 10:49:14,023 - INFO - [Styles] Available paragraph styles: ['Normal', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5', 'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Body Text', 'List Paragraph', 'Table Paragraph', 'Header', 'Footer']
+2025-12-08 10:49:14,023 - INFO - [Styles] Found paragraph style: 'Body Text'
+2025-12-08 10:49:14,024 - INFO - [RichParagraph] Created paragraph with style: 'Body Text'
+2025-12-08 10:49:14,024 - INFO - [Loop] Section 11 paragraph processed, last_element: True
+2025-12-08 10:49:14,026 - INFO - [Styles] Available paragraph styles: ['Normal', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5', 'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Body Text', 'List Paragraph', 'Table Paragraph', 'Header', 'Footer']
+2025-12-08 10:49:14,027 - INFO - [Styles] Found paragraph style: 'Body Text'
+2025-12-08 10:49:14,028 - INFO - [RichParagraph] Created paragraph with style: 'Body Text'
+2025-12-08 10:49:14,028 - INFO - [Loop] Section 12 paragraph processed, last_element: True
+2025-12-08 10:49:14,043 - INFO - Chamando _process_dynamic_table_placeholder agora...
+2025-12-08 10:50:18,229 - INFO - Processing request of type ListToolsRequest
+2025-12-08 10:50:24,119 - INFO - Processing request of type CallToolRequest
+2025-12-08 10:50:25,674 - INFO - Processing request of type CallToolRequest
+2025-12-08 10:50:56,025 - INFO - Processing request of type ListToolsRequest
+2025-12-08 10:51:01,444 - INFO - Processing request of type CallToolRequest
+2025-12-08 10:51:03,754 - INFO - Processing request of type CallToolRequest
+2025-12-08 10:51:45,727 - INFO - Processing request of type ListToolsRequest
+2025-12-08 10:51:50,901 - INFO - Processing request of type CallToolRequest
+2025-12-08 10:51:53,880 - INFO - Processing request of type CallToolRequest
